@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DDD0C3A61ED57E1E00272DC3"
-               BuildableName = "05. Projekt - Kompresja"
-               BlueprintName = "05. Projekt - Kompresja"
-               ReferencedContainer = "container:05. Projekt - Kompresja.xcodeproj">
+               BuildableName = "06. Projekt - Kompresja"
+               BlueprintName = "06. Projekt - Kompresja"
+               ReferencedContainer = "container:06. Projekt - Kompresja.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DDD0C3A61ED57E1E00272DC3"
-            BuildableName = "05. Projekt - Kompresja"
-            BlueprintName = "05. Projekt - Kompresja"
-            ReferencedContainer = "container:05. Projekt - Kompresja.xcodeproj">
+            BuildableName = "06. Projekt - Kompresja"
+            BlueprintName = "06. Projekt - Kompresja"
+            ReferencedContainer = "container:06. Projekt - Kompresja.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -46,7 +46,8 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
-      useCustomWorkingDirectory = "NO"
+      useCustomWorkingDirectory = "YES"
+      customWorkingDirectory = "$PROJECT_DIR"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -56,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DDD0C3A61ED57E1E00272DC3"
-            BuildableName = "05. Projekt - Kompresja"
-            BlueprintName = "05. Projekt - Kompresja"
-            ReferencedContainer = "container:05. Projekt - Kompresja.xcodeproj">
+            BuildableName = "06. Projekt - Kompresja"
+            BlueprintName = "06. Projekt - Kompresja"
+            ReferencedContainer = "container:06. Projekt - Kompresja.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DDD0C3A61ED57E1E00272DC3"
-            BuildableName = "05. Projekt - Kompresja"
-            BlueprintName = "05. Projekt - Kompresja"
-            ReferencedContainer = "container:05. Projekt - Kompresja.xcodeproj">
+            BuildableName = "06. Projekt - Kompresja"
+            BlueprintName = "06. Projekt - Kompresja"
+            ReferencedContainer = "container:06. Projekt - Kompresja.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

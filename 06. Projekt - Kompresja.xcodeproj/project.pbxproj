@@ -1,0 +1,319 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD9FCDC61EE5BE04005F3314 /* CLIInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */; };
+		DDD0C3CE1ED59A0800272DC3 /* BMPLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C31ED59A0800272DC3 /* BMPLib.cpp */; };
+		DDD0C3CF1ED59A0800272DC3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C61ED59A0800272DC3 /* main.cpp */; };
+		DDD0C3D01ED59A0800272DC3 /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C71ED59A0800272DC3 /* Neuron.cpp */; };
+		DDD0C3D11ED59A0800272DC3 /* Warstwa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C91ED59A0800272DC3 /* Warstwa.cpp */; };
+		DDD0C3D21ED59A0800272DC3 /* Zarzadca.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3CC1ED59A0800272DC3 /* Zarzadca.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DDD0C3A51ED57E1E00272DC3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CLIInterface.cpp; path = "06. Projekt - Kompresja/CLIInterface.cpp"; sourceTree = SOURCE_ROOT; };
+		DD9FCDC51EE5BE04005F3314 /* CLIInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CLIInterface.hpp; path = "06. Projekt - Kompresja/CLIInterface.hpp"; sourceTree = SOURCE_ROOT; };
+		DD9FCDC71EE5BE16005F3314 /* Interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Interface.hpp; path = "06. Projekt - Kompresja/Interface.hpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3A71ED57E1E00272DC3 /* 06. Projekt - Kompresja */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "06. Projekt - Kompresja"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD0C3C21ED59A0800272DC3 /* BMPAdditionalLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMPAdditionalLib.h; path = "06. Projekt - Kompresja/BMPAdditionalLib.h"; sourceTree = SOURCE_ROOT; };
+		DDD0C3C31ED59A0800272DC3 /* BMPLib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BMPLib.cpp; path = "06. Projekt - Kompresja/BMPLib.cpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3C41ED59A0800272DC3 /* BMPLib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BMPLib.hpp; path = "06. Projekt - Kompresja/BMPLib.hpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3C51ED59A0800272DC3 /* GlobalDefines.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GlobalDefines.hpp; path = "06. Projekt - Kompresja/GlobalDefines.hpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3C61ED59A0800272DC3 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "06. Projekt - Kompresja/main.cpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3C71ED59A0800272DC3 /* Neuron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.cpp; path = "06. Projekt - Kompresja/Neuron.cpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3C81ED59A0800272DC3 /* Neuron.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Neuron.hpp; path = "06. Projekt - Kompresja/Neuron.hpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3C91ED59A0800272DC3 /* Warstwa.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Warstwa.cpp; path = "06. Projekt - Kompresja/Warstwa.cpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3CA1ED59A0800272DC3 /* Warstwa.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Warstwa.hpp; path = "06. Projekt - Kompresja/Warstwa.hpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3CB1ED59A0800272DC3 /* Wejscie.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Wejscie.hpp; path = "06. Projekt - Kompresja/Wejscie.hpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3CC1ED59A0800272DC3 /* Zarzadca.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Zarzadca.cpp; path = "06. Projekt - Kompresja/Zarzadca.cpp"; sourceTree = SOURCE_ROOT; };
+		DDD0C3CD1ED59A0800272DC3 /* Zarzadca.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Zarzadca.hpp; path = "06. Projekt - Kompresja/Zarzadca.hpp"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDD0C3A41ED57E1E00272DC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD9FCDC81EE5BE1E005F3314 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				DD9FCDC71EE5BE16005F3314 /* Interface.hpp */,
+				DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */,
+				DD9FCDC51EE5BE04005F3314 /* CLIInterface.hpp */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
+		DD9FCDC91EE5BE28005F3314 /* BMP Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				DDD0C3C21ED59A0800272DC3 /* BMPAdditionalLib.h */,
+				DDD0C3C31ED59A0800272DC3 /* BMPLib.cpp */,
+				DDD0C3C41ED59A0800272DC3 /* BMPLib.hpp */,
+			);
+			name = "BMP Stuff";
+			sourceTree = "<group>";
+		};
+		DD9FCDCA1EE5BE39005F3314 /* Neuron Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				DDD0C3C71ED59A0800272DC3 /* Neuron.cpp */,
+				DDD0C3C81ED59A0800272DC3 /* Neuron.hpp */,
+				DDD0C3C91ED59A0800272DC3 /* Warstwa.cpp */,
+				DDD0C3CA1ED59A0800272DC3 /* Warstwa.hpp */,
+				DDD0C3CB1ED59A0800272DC3 /* Wejscie.hpp */,
+			);
+			name = "Neuron Stuff";
+			sourceTree = "<group>";
+		};
+		DDD0C39E1ED57E1E00272DC3 = {
+			isa = PBXGroup;
+			children = (
+				DDD0C3A91ED57E1E00272DC3 /* 06. Projekt - Kompresja */,
+				DDD0C3A81ED57E1E00272DC3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DDD0C3A81ED57E1E00272DC3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDD0C3A71ED57E1E00272DC3 /* 06. Projekt - Kompresja */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DDD0C3A91ED57E1E00272DC3 /* 06. Projekt - Kompresja */ = {
+			isa = PBXGroup;
+			children = (
+				DD9FCDC81EE5BE1E005F3314 /* Interfaces */,
+				DD9FCDC91EE5BE28005F3314 /* BMP Stuff */,
+				DD9FCDCA1EE5BE39005F3314 /* Neuron Stuff */,
+				DDD0C3C61ED59A0800272DC3 /* main.cpp */,
+				DDD0C3CC1ED59A0800272DC3 /* Zarzadca.cpp */,
+				DDD0C3CD1ED59A0800272DC3 /* Zarzadca.hpp */,
+				DDD0C3C51ED59A0800272DC3 /* GlobalDefines.hpp */,
+			);
+			name = "06. Projekt - Kompresja";
+			path = "05. Projekt - Kompresja";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DDD0C3A61ED57E1E00272DC3 /* 06. Projekt - Kompresja */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDD0C3AE1ED57E1F00272DC3 /* Build configuration list for PBXNativeTarget "06. Projekt - Kompresja" */;
+			buildPhases = (
+				DDD0C3A31ED57E1E00272DC3 /* Sources */,
+				DDD0C3A41ED57E1E00272DC3 /* Frameworks */,
+				DDD0C3A51ED57E1E00272DC3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "06. Projekt - Kompresja";
+			productName = "05. Projekt - Kompresja";
+			productReference = DDD0C3A71ED57E1E00272DC3 /* 06. Projekt - Kompresja */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DDD0C39F1ED57E1E00272DC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Krystian Owoc";
+				TargetAttributes = {
+					DDD0C3A61ED57E1E00272DC3 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = DDD0C3A21ED57E1E00272DC3 /* Build configuration list for PBXProject "06. Projekt - Kompresja" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DDD0C39E1ED57E1E00272DC3;
+			productRefGroup = DDD0C3A81ED57E1E00272DC3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DDD0C3A61ED57E1E00272DC3 /* 06. Projekt - Kompresja */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DDD0C3A31ED57E1E00272DC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDD0C3CF1ED59A0800272DC3 /* main.cpp in Sources */,
+				DDD0C3D11ED59A0800272DC3 /* Warstwa.cpp in Sources */,
+				DD9FCDC61EE5BE04005F3314 /* CLIInterface.cpp in Sources */,
+				DDD0C3CE1ED59A0800272DC3 /* BMPLib.cpp in Sources */,
+				DDD0C3D21ED59A0800272DC3 /* Zarzadca.cpp in Sources */,
+				DDD0C3D01ED59A0800272DC3 /* Neuron.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DDD0C3AC1ED57E1F00272DC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DDD0C3AD1ED57E1F00272DC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DDD0C3AF1ED57E1F00272DC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DDD0C3B01ED57E1F00272DC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DDD0C3A21ED57E1E00272DC3 /* Build configuration list for PBXProject "06. Projekt - Kompresja" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDD0C3AC1ED57E1F00272DC3 /* Debug */,
+				DDD0C3AD1ED57E1F00272DC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDD0C3AE1ED57E1F00272DC3 /* Build configuration list for PBXNativeTarget "06. Projekt - Kompresja" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDD0C3AF1ED57E1F00272DC3 /* Debug */,
+				DDD0C3B01ED57E1F00272DC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DDD0C39F1ED57E1E00272DC3 /* Project object */;
+}
