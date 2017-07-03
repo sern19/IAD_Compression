@@ -9,7 +9,6 @@
 #ifndef Interface_hpp
 #define Interface_hpp
 
-#include <stdio.h>
 #include <string>
 
 class Interface
@@ -17,7 +16,11 @@ class Interface
 public:
     virtual ~Interface() {}
     virtual void showComunicat(std::string text)=0;
+    virtual void showComunicat(double text)=0;
+    virtual void showComunicat(int text)=0;
     virtual void showText(std::string text)=0;
+    virtual void showText(double text)=0;
+    virtual void showText(int text)=0;
     virtual void waitToContinue()=0;
 };
 

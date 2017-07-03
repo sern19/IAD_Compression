@@ -9,7 +9,6 @@
 #ifndef BMPLib_hpp
 #define BMPLib_hpp
 
-#include <stdio.h>
 #include <vector>
 #include <string>
 #include "BMPAdditionalLib.h"
@@ -33,6 +32,8 @@ public:
     bool isRGB();
     void setRGBPixel(int x, int y, pixelRGB pixel);
     void setGrayPixel(int x, int y, pixelGray pixel);
+    unsigned int getHeight();
+    unsigned int getWidth();
     std::vector<std::vector<pixelRGB>> getRGBPixels();
     std::vector<std::vector<pixelGray>> getGrayPixels();
 };

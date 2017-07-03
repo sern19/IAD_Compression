@@ -7,15 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD0470881F0A34E5000A75C0 /* CLIInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */; };
+		DD0470891F0A34E5000A75C0 /* BMPLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C31ED59A0800272DC3 /* BMPLib.cpp */; };
+		DD04708C1F0A34E5000A75C0 /* ImageSegments.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9FCDD91EE944B5005F3314 /* ImageSegments.cpp */; };
+		DD04708D1F0A34E5000A75C0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C61ED59A0800272DC3 /* main.cpp */; };
+		DD0470911F0A4D15000A75C0 /* ImageSegment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD04708F1F0A4D15000A75C0 /* ImageSegment.cpp */; };
+		DD0470921F0A4D15000A75C0 /* ImageSegment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD04708F1F0A4D15000A75C0 /* ImageSegment.cpp */; };
+		DD0470961F0A7D63000A75C0 /* Centroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470941F0A7D63000A75C0 /* Centroid.cpp */; };
+		DD0470971F0A7D63000A75C0 /* Centroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470941F0A7D63000A75C0 /* Centroid.cpp */; };
+		DD04709A1F0A8D13000A75C0 /* Centroids.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470981F0A8D13000A75C0 /* Centroids.cpp */; };
+		DD04709B1F0A8D13000A75C0 /* Centroids.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470981F0A8D13000A75C0 /* Centroids.cpp */; };
 		DD9FCDC61EE5BE04005F3314 /* CLIInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */; };
+		DD9FCDDB1EE944B5005F3314 /* ImageSegments.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9FCDD91EE944B5005F3314 /* ImageSegments.cpp */; };
 		DDD0C3CE1ED59A0800272DC3 /* BMPLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C31ED59A0800272DC3 /* BMPLib.cpp */; };
 		DDD0C3CF1ED59A0800272DC3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C61ED59A0800272DC3 /* main.cpp */; };
-		DDD0C3D01ED59A0800272DC3 /* Neuron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C71ED59A0800272DC3 /* Neuron.cpp */; };
-		DDD0C3D11ED59A0800272DC3 /* Warstwa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C91ED59A0800272DC3 /* Warstwa.cpp */; };
-		DDD0C3D21ED59A0800272DC3 /* Zarzadca.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3CC1ED59A0800272DC3 /* Zarzadca.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		DD04707F1F0A34DA000A75C0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		DDD0C3A51ED57E1E00272DC3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -28,25 +45,34 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DD0470811F0A34DA000A75C0 /* 06. Projekt - Kompresja - Release */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "06. Projekt - Kompresja - Release"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD04708F1F0A4D15000A75C0 /* ImageSegment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageSegment.cpp; path = "06. Projekt - Kompresja/ImageSegment.cpp"; sourceTree = SOURCE_ROOT; };
+		DD0470901F0A4D15000A75C0 /* ImageSegment.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ImageSegment.hpp; path = "06. Projekt - Kompresja/ImageSegment.hpp"; sourceTree = SOURCE_ROOT; };
+		DD0470941F0A7D63000A75C0 /* Centroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Centroid.cpp; path = "../06. Projekt - Kompresja/Centroid.cpp"; sourceTree = "<group>"; };
+		DD0470951F0A7D63000A75C0 /* Centroid.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Centroid.hpp; path = "../06. Projekt - Kompresja/Centroid.hpp"; sourceTree = "<group>"; };
+		DD0470981F0A8D13000A75C0 /* Centroids.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Centroids.cpp; path = "../06. Projekt - Kompresja/Centroids.cpp"; sourceTree = "<group>"; };
+		DD0470991F0A8D13000A75C0 /* Centroids.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Centroids.hpp; path = "../06. Projekt - Kompresja/Centroids.hpp"; sourceTree = "<group>"; };
 		DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CLIInterface.cpp; path = "06. Projekt - Kompresja/CLIInterface.cpp"; sourceTree = SOURCE_ROOT; };
 		DD9FCDC51EE5BE04005F3314 /* CLIInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CLIInterface.hpp; path = "06. Projekt - Kompresja/CLIInterface.hpp"; sourceTree = SOURCE_ROOT; };
 		DD9FCDC71EE5BE16005F3314 /* Interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Interface.hpp; path = "06. Projekt - Kompresja/Interface.hpp"; sourceTree = SOURCE_ROOT; };
+		DD9FCDD91EE944B5005F3314 /* ImageSegments.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageSegments.cpp; path = "06. Projekt - Kompresja/ImageSegments.cpp"; sourceTree = SOURCE_ROOT; };
+		DD9FCDDA1EE944B5005F3314 /* ImageSegments.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ImageSegments.hpp; path = "06. Projekt - Kompresja/ImageSegments.hpp"; sourceTree = SOURCE_ROOT; };
 		DDD0C3A71ED57E1E00272DC3 /* 06. Projekt - Kompresja */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "06. Projekt - Kompresja"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD0C3C21ED59A0800272DC3 /* BMPAdditionalLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMPAdditionalLib.h; path = "06. Projekt - Kompresja/BMPAdditionalLib.h"; sourceTree = SOURCE_ROOT; };
 		DDD0C3C31ED59A0800272DC3 /* BMPLib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BMPLib.cpp; path = "06. Projekt - Kompresja/BMPLib.cpp"; sourceTree = SOURCE_ROOT; };
 		DDD0C3C41ED59A0800272DC3 /* BMPLib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BMPLib.hpp; path = "06. Projekt - Kompresja/BMPLib.hpp"; sourceTree = SOURCE_ROOT; };
 		DDD0C3C51ED59A0800272DC3 /* GlobalDefines.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GlobalDefines.hpp; path = "06. Projekt - Kompresja/GlobalDefines.hpp"; sourceTree = SOURCE_ROOT; };
 		DDD0C3C61ED59A0800272DC3 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "06. Projekt - Kompresja/main.cpp"; sourceTree = SOURCE_ROOT; };
-		DDD0C3C71ED59A0800272DC3 /* Neuron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Neuron.cpp; path = "06. Projekt - Kompresja/Neuron.cpp"; sourceTree = SOURCE_ROOT; };
-		DDD0C3C81ED59A0800272DC3 /* Neuron.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Neuron.hpp; path = "06. Projekt - Kompresja/Neuron.hpp"; sourceTree = SOURCE_ROOT; };
-		DDD0C3C91ED59A0800272DC3 /* Warstwa.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Warstwa.cpp; path = "06. Projekt - Kompresja/Warstwa.cpp"; sourceTree = SOURCE_ROOT; };
-		DDD0C3CA1ED59A0800272DC3 /* Warstwa.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Warstwa.hpp; path = "06. Projekt - Kompresja/Warstwa.hpp"; sourceTree = SOURCE_ROOT; };
-		DDD0C3CB1ED59A0800272DC3 /* Wejscie.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Wejscie.hpp; path = "06. Projekt - Kompresja/Wejscie.hpp"; sourceTree = SOURCE_ROOT; };
-		DDD0C3CC1ED59A0800272DC3 /* Zarzadca.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Zarzadca.cpp; path = "06. Projekt - Kompresja/Zarzadca.cpp"; sourceTree = SOURCE_ROOT; };
-		DDD0C3CD1ED59A0800272DC3 /* Zarzadca.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Zarzadca.hpp; path = "06. Projekt - Kompresja/Zarzadca.hpp"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DD04707E1F0A34DA000A75C0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDD0C3A41ED57E1E00272DC3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -57,6 +83,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DD0470931F0A7D2E000A75C0 /* ImageSegmentation */ = {
+			isa = PBXGroup;
+			children = (
+				DD9FCDD91EE944B5005F3314 /* ImageSegments.cpp */,
+				DD9FCDDA1EE944B5005F3314 /* ImageSegments.hpp */,
+				DD04708F1F0A4D15000A75C0 /* ImageSegment.cpp */,
+				DD0470901F0A4D15000A75C0 /* ImageSegment.hpp */,
+			);
+			name = ImageSegmentation;
+			sourceTree = "<group>";
+		};
 		DD9FCDC81EE5BE1E005F3314 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,18 +114,6 @@
 			name = "BMP Stuff";
 			sourceTree = "<group>";
 		};
-		DD9FCDCA1EE5BE39005F3314 /* Neuron Stuff */ = {
-			isa = PBXGroup;
-			children = (
-				DDD0C3C71ED59A0800272DC3 /* Neuron.cpp */,
-				DDD0C3C81ED59A0800272DC3 /* Neuron.hpp */,
-				DDD0C3C91ED59A0800272DC3 /* Warstwa.cpp */,
-				DDD0C3CA1ED59A0800272DC3 /* Warstwa.hpp */,
-				DDD0C3CB1ED59A0800272DC3 /* Wejscie.hpp */,
-			);
-			name = "Neuron Stuff";
-			sourceTree = "<group>";
-		};
 		DDD0C39E1ED57E1E00272DC3 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				DDD0C3A71ED57E1E00272DC3 /* 06. Projekt - Kompresja */,
+				DD0470811F0A34DA000A75C0 /* 06. Projekt - Kompresja - Release */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,10 +136,12 @@
 			children = (
 				DD9FCDC81EE5BE1E005F3314 /* Interfaces */,
 				DD9FCDC91EE5BE28005F3314 /* BMP Stuff */,
-				DD9FCDCA1EE5BE39005F3314 /* Neuron Stuff */,
+				DD0470931F0A7D2E000A75C0 /* ImageSegmentation */,
+				DD0470941F0A7D63000A75C0 /* Centroid.cpp */,
+				DD0470951F0A7D63000A75C0 /* Centroid.hpp */,
+				DD0470981F0A8D13000A75C0 /* Centroids.cpp */,
+				DD0470991F0A8D13000A75C0 /* Centroids.hpp */,
 				DDD0C3C61ED59A0800272DC3 /* main.cpp */,
-				DDD0C3CC1ED59A0800272DC3 /* Zarzadca.cpp */,
-				DDD0C3CD1ED59A0800272DC3 /* Zarzadca.hpp */,
 				DDD0C3C51ED59A0800272DC3 /* GlobalDefines.hpp */,
 			);
 			name = "06. Projekt - Kompresja";
@@ -123,6 +151,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DD0470801F0A34DA000A75C0 /* 06. Projekt - Kompresja - Release */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD0470871F0A34DA000A75C0 /* Build configuration list for PBXNativeTarget "06. Projekt - Kompresja - Release" */;
+			buildPhases = (
+				DD04707D1F0A34DA000A75C0 /* Sources */,
+				DD04707E1F0A34DA000A75C0 /* Frameworks */,
+				DD04707F1F0A34DA000A75C0 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "06. Projekt - Kompresja - Release";
+			productName = "06. Projekt - Kompresja - Release";
+			productReference = DD0470811F0A34DA000A75C0 /* 06. Projekt - Kompresja - Release */;
+			productType = "com.apple.product-type.tool";
+		};
 		DDD0C3A61ED57E1E00272DC3 /* 06. Projekt - Kompresja */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDD0C3AE1ED57E1F00272DC3 /* Build configuration list for PBXNativeTarget "06. Projekt - Kompresja" */;
@@ -149,6 +194,10 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Krystian Owoc";
 				TargetAttributes = {
+					DD0470801F0A34DA000A75C0 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
 					DDD0C3A61ED57E1E00272DC3 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
@@ -168,27 +217,57 @@
 			projectRoot = "";
 			targets = (
 				DDD0C3A61ED57E1E00272DC3 /* 06. Projekt - Kompresja */,
+				DD0470801F0A34DA000A75C0 /* 06. Projekt - Kompresja - Release */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DD04707D1F0A34DA000A75C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD0470881F0A34E5000A75C0 /* CLIInterface.cpp in Sources */,
+				DD0470891F0A34E5000A75C0 /* BMPLib.cpp in Sources */,
+				DD04708C1F0A34E5000A75C0 /* ImageSegments.cpp in Sources */,
+				DD04708D1F0A34E5000A75C0 /* main.cpp in Sources */,
+				DD04709B1F0A8D13000A75C0 /* Centroids.cpp in Sources */,
+				DD0470921F0A4D15000A75C0 /* ImageSegment.cpp in Sources */,
+				DD0470971F0A7D63000A75C0 /* Centroid.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDD0C3A31ED57E1E00272DC3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				DDD0C3CF1ED59A0800272DC3 /* main.cpp in Sources */,
-				DDD0C3D11ED59A0800272DC3 /* Warstwa.cpp in Sources */,
+				DD9FCDDB1EE944B5005F3314 /* ImageSegments.cpp in Sources */,
 				DD9FCDC61EE5BE04005F3314 /* CLIInterface.cpp in Sources */,
 				DDD0C3CE1ED59A0800272DC3 /* BMPLib.cpp in Sources */,
-				DDD0C3D21ED59A0800272DC3 /* Zarzadca.cpp in Sources */,
-				DDD0C3D01ED59A0800272DC3 /* Neuron.cpp in Sources */,
+				DD04709A1F0A8D13000A75C0 /* Centroids.cpp in Sources */,
+				DD0470911F0A4D15000A75C0 /* ImageSegment.cpp in Sources */,
+				DD0470961F0A7D63000A75C0 /* Centroid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		DD0470851F0A34DA000A75C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DD0470861F0A34DA000A75C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		DDD0C3AC1ED57E1F00272DC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -295,6 +374,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DD0470871F0A34DA000A75C0 /* Build configuration list for PBXNativeTarget "06. Projekt - Kompresja - Release" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD0470851F0A34DA000A75C0 /* Debug */,
+				DD0470861F0A34DA000A75C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		DDD0C3A21ED57E1E00272DC3 /* Build configuration list for PBXProject "06. Projekt - Kompresja" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -9,8 +9,6 @@
 #ifndef BMPAdditionalLib_h
 #define BMPAdditionalLib_h
 
-#include <cstdint>
-
 struct BITMAPFILEHEADER
 {
     uint16_t bfType;
@@ -37,15 +35,30 @@ struct BITMAPINFOHEADER
 
 struct pixelRGB
 {
-    double r=0,g=0,b=0;
+    unsigned char r=0,g=0,b=0;
     pixelRGB() {}
-    pixelRGB(double r, double g, double b): r(r), b(b), g(g) {}
+    pixelRGB(unsigned char r, unsigned char g, unsigned char b): r(r), b(b), g(g) {}
 };
 
 struct pixelGray
 {
-    double gray=0;
+    unsigned char gray=0;
     pixelGray() {}
-    pixelGray(double gray): gray(gray) {}
+    pixelGray(unsigned char gray): gray(gray) {}
 };
+
+struct doublePixelRGB
+{
+    double r=0,g=0,b=0;
+    doublePixelRGB() {}
+    doublePixelRGB(double r, double g, double b): r(r), b(b), g(g) {}
+};
+
+struct doublePixelGray
+{
+    double gray=0;
+    doublePixelGray() {}
+    doublePixelGray(double gray): gray(gray) {}
+};
+
 #endif /* BMPAdditionalLib_h */

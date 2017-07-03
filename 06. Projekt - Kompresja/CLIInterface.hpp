@@ -9,16 +9,18 @@
 #ifndef CLIInterface_hpp
 #define CLIInterface_hpp
 
-#include <stdio.h>
 #include "Interface.hpp"
 
 class CLIInterface: public Interface
 {
-private:
-    std::string convertPolishCharacters(std::string input);
 public:
+    CLIInterface();
     void showComunicat(std::string text);
+    void showComunicat(double text);
+    void showComunicat(int text);
     void showText(std::string text);
+    void showText(double text);
+    void showText(int text);
     void waitToContinue();
 };
 

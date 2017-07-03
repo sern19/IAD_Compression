@@ -10,10 +10,15 @@
 
 
 #include "BMPLib.hpp"
+#include "ImageSegments.hpp"
 
 int main(int argc, const char * argv[])
 {
-    BMPImage tmp("test.bmp");
-    tmp.saveFile("t222.bmp");
+    BMPImage tmp("t2.bmp");
+    ImageSegments segmenty=ImageSegments(8, tmp); // 6 i 8 bardzo optymalna liczba la predkosci az do normalizacji
+    segmenty.normalizeSegments();
+    std::cout << "Lol koniec";
+    std::cin.get();
+    //tmp.saveFile("t222.bmp");
     return 0;
 }
