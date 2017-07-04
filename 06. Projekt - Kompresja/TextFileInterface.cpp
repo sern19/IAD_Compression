@@ -6,16 +6,23 @@
 //  Copyright © 2017 Krystian Owoc. All rights reserved.
 //
 
+#define _CRT_SECURE_NO_WARNINGS 1
+
 #include "TextFileInterface.hpp"
+#include <time.h>
 
 TextFileInterface::TextFileInterface()
 {
     time_t now = time(0);
-    tm *ltm = localtime(&now);
-    
+    struct tm ltm;
+    #ifdef __APPLE__
+        localtime_r(&now,&ltm);
+    #elif defined _WIN32 || defined _WIN64
+        localtime_s(&ltm, &now);
+    #endif    
     outputFile.open("06. Projekt kompresja - Output.txt",std::ios_base::app);
-    outputFile << "\n----Otwarto plik (" << 1900 + ltm->tm_year << "." << 1 + ltm->tm_mon << "." << ltm->tm_mday << " ";
-    outputFile << 1 + ltm->tm_hour << ":" << 1 + ltm->tm_min << ":" << 1 + ltm->tm_sec << ")----" << std::endl;
+    outputFile << "\n----Otwarto plik (" << 1900 + ltm.tm_year << "." << 1 + ltm.tm_mon << "." << ltm.tm_mday << " ";
+    outputFile << 1 + ltm.tm_hour << ":" << 1 + ltm.tm_min << ":" << 1 + ltm.tm_sec << ")----" << std::endl;
 }
 
 TextFileInterface::~TextFileInterface()
@@ -23,9 +30,14 @@ TextFileInterface::~TextFileInterface()
     if (outputFile.is_open())
     {
         time_t now = time(0);
-        tm *ltm = localtime(&now);
-        outputFile << "\n----Zamknięto plik (" << 1900 + ltm->tm_year << "." << 1 + ltm->tm_mon << "." << ltm->tm_mday << " ";
-        outputFile << 1 + ltm->tm_hour << ":" << 1 + ltm->tm_min << ":" << 1 + ltm->tm_sec << ")----" << std::endl;
+        struct tm ltm;
+        #ifdef __APPLE__
+                localtime_r(&now,&ltm);
+        #elif defined _WIN32 || defined _WIN64
+                localtime_s(&ltm, &now);
+        #endif
+        outputFile << "\n----Zamknięto plik (" << 1900 + ltm.tm_year << "." << 1 + ltm.tm_mon << "." << ltm.tm_mday << " ";
+        outputFile << 1 + ltm.tm_hour << ":" << 1 + ltm.tm_min << ":" << 1 + ltm.tm_sec << ")----" << std::endl;
         outputFile.flush();
     }
     if (outputFile.is_open()) outputFile.close();

@@ -317,7 +317,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
             endingLineNumber = "46"
-            landmarkName = "TextFileInterface::showComunicat(std::string text)"
+            landmarkName = "TextFileInterface::updateFile()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

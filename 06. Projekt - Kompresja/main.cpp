@@ -19,14 +19,14 @@ int main(int argc, const char * argv[])
     Zarzadca* glownyZarzadca=nullptr;
     try
     {
-        glownyZarzadca=new Zarzadca("08.bmp", 384, 4, interfejs); // 6 i 8 pixeli to optymalna wartość dla prędkości wykonania segmentacji, 4 najszybsze w przypadku nauki
+        glownyZarzadca=new Zarzadca("08.bmp", 512, 4, interfejs); // 6 i 8 pixeli to optymalna wartość dla prędkości wykonania segmentacji, 4 najszybsze w przypadku nauki
     }
     catch (std::string comunicat)
     {
         interfejs->showComunicat(comunicat);
         return 1;
     }
-    glownyZarzadca->glownaPetlaKmeans(4,20);
+    glownyZarzadca->glownaPetlaKmeans(4,25);
     glownyZarzadca->zapiszDoPliku("c08.bmp");
     if (glownyZarzadca!=nullptr) delete glownyZarzadca;
     if (interfejs!=nullptr) delete interfejs;

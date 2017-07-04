@@ -302,6 +302,7 @@ void Zarzadca::glownaPetlaKmeans(unsigned int numberOfRetries, unsigned int numb
         interfejs->showComunicat(" nowych centroidów");
         if (centroids!=nullptr) delete centroids;
         centroids=new Centroids(numberOfCentroids,imageSegments->getPrefferedSize(),sourceImage.isRGB(),imageSegments);
+        imageSegments->clearClosestsCentroids();
     }
     Centroids previosuCentroids=*centroids;
     Centroids bestCentroids=*centroids;
@@ -383,8 +384,8 @@ void Zarzadca::glownaPetlaKmeans(unsigned int numberOfRetries, unsigned int numb
             if (watki[k].joinable()) watki[k].join();
     }
     
-    interfejs->showComunicat("");
     interfejs->showComunicat("Skończono pętlę k-średnich");
+    interfejs->showComunicat("");
     hasRunAtLeastOnce=true;
 }
 
