@@ -63,6 +63,31 @@ void ImageSegments::generateSegment(unsigned int x, unsigned int y)
     }
 }
 
+void ImageSegments::updatePixelsWithSegment(unsigned int x, unsigned int y)
+{
+    unsigned int i,j;
+    if (isRGB)
+    {
+        for (i=0;i<prefferedSize;i++)
+        {
+            for (j=0;j<prefferedSize;j++)
+            {
+                pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].r=imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].r;
+                pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].g=imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].g;
+                pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].b=imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].b;
+            }
+        }
+    }
+    else
+    {
+        for (i=0;i<prefferedSize;i++)
+        {
+            for (j=0;j<prefferedSize;j++)
+                pixelsGray[x*prefferedSize+i][y*prefferedSize+j].gray=imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsGray()[i][j].gray;
+        }
+    }
+}
+
 void ImageSegments::calculateMean(unsigned int mode, double* valueToSet, unsigned int x, unsigned int y)
 {
     int output=0;
@@ -106,15 +131,10 @@ void ImageSegments::calculateStandartDeviation(unsigned int mode, double mean, u
     }
 }
 
-ImageSegment ImageSegments::getSegment(unsigned int x)
-{
-    return imageSegments[x];
-}
-
-ImageSegment ImageSegments::getSegment(unsigned int x, unsigned int y)
-{
-    return imageSegments[x*(imageWidth/prefferedSize)+y];
-}
+ImageSegment* ImageSegments::getSegment(unsigned int x) { return &imageSegments[x]; }
+ImageSegment* ImageSegments::getSegment(unsigned int x, unsigned int y) { return &imageSegments[x*(imageWidth/prefferedSize)+y]; }
+std::vector<std::vector<pixelRGB>> ImageSegments::getPixelsRGB() { return pixelsRGB; }
+std::vector<std::vector<pixelGray>> ImageSegments::getPixelsGray() { return pixelsGray; }
 
 double ImageSegments::getDeviationValue(unsigned int mode, unsigned int x, unsigned int y)
 {
@@ -126,9 +146,15 @@ double ImageSegments::getDeviationValue(unsigned int mode, unsigned int x, unsig
 
 bool ImageSegments::getIsRGB() { return isRGB; }
 
-void ImageSegments::setSegment(unsigned int x, unsigned int y, ImageSegment segment)
+unsigned int ImageSegments::getNumberOfSegments() { return (unsigned int)imageSegments.size(); }
+unsigned int ImageSegments::getPrefferedSize() { return prefferedSize; }
+
+void ImageSegments::setSegment(unsigned int x, unsigned int y, ImageSegment segment) { imageSegments[x*(imageWidth/prefferedSize)+y]=segment; }
+
+void ImageSegments::clearClosestsCentroids()
 {
-    imageSegments[x*(imageWidth/prefferedSize)+y]=segment;
+    unsigned int i;
+    for (i=0;i<imageSegments.size();i++) imageSegments[i].setClosestCentroidNumber(UINT_MAX);
 }
 
 void ImageSegments::normalizeSegments()
@@ -225,4 +251,40 @@ void ImageSegments::normalizeSegments()
         for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
             if (watki[k].joinable()) watki[k].join();
     }
+}
+
+void ImageSegments::denormalizeSegments()
+{
+    if (!imageSegments[0].getIsModified())
+    {
+        throw std::string("Nie można zdenormalizować pixeli bez wcześniejszego ich znormalizowania!");
+    }
+    else
+    {
+        unsigned int i,k;
+        //Denormalizacja w segmentach
+        std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
+        for (i=0;i<imageSegments.size();i+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+        {
+            for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+i)<imageSegments.size());k++)
+                watki[k]=std::thread(&ImageSegment::denomralizePixels,&imageSegments[i+k]);
+            for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+                if (watki[k].joinable()) watki[k].join();
+        }
+    }
+}
+
+void ImageSegments::generateFinalPixels()
+{
+    unsigned int i,j,k;
+    std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
+    
+    for (i=0;i<(imageHeight/prefferedSize);i++)
+        for (j=0;j<(imageWidth/prefferedSize);j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+        {
+            for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<(imageWidth/prefferedSize));k++)
+                watki[k]=std::thread(&ImageSegments::updatePixelsWithSegment,this,i,j+k);
+            for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+                if (watki[k].joinable()) watki[k].join();
+        }
 }

@@ -32,17 +32,25 @@ private:
     
     std::vector<ImageSegment> imageSegments;
     void generateSegment(unsigned int x, unsigned int y); //X,Y startuje od 0
+    void updatePixelsWithSegment(unsigned int x, unsigned int y);
     //Uzywane glownie przy wielu watkach
     void calculateMean(unsigned int mode, double* valueToSet, unsigned int x, unsigned int y);
     void calculateStandartDeviation(unsigned int mode, double mean, unsigned int x, unsigned int y);
 public:
     ImageSegments(unsigned int prefferedSize, BMPImage image);
-    ImageSegment getSegment(unsigned int x);
-    ImageSegment getSegment(unsigned int x, unsigned int y);
+    ImageSegment* getSegment(unsigned int x);
+    ImageSegment* getSegment(unsigned int x, unsigned int y);
+    std::vector<std::vector<pixelRGB>> getPixelsRGB();
+    std::vector<std::vector<pixelGray>> getPixelsGray();
     double getDeviationValue(unsigned int mode, unsigned int x, unsigned int y);
     bool getIsRGB();
+    unsigned int getNumberOfSegments();
+    unsigned int getPrefferedSize();
     void setSegment(unsigned int x, unsigned int y, ImageSegment segment);
+    void clearClosestsCentroids();
     void normalizeSegments();
+    void denormalizeSegments();
+    void generateFinalPixels();
 };
 
 #endif /* ImageSegments_hpp */

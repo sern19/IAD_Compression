@@ -17,6 +17,10 @@
 		DD0470971F0A7D63000A75C0 /* Centroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470941F0A7D63000A75C0 /* Centroid.cpp */; };
 		DD04709A1F0A8D13000A75C0 /* Centroids.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470981F0A8D13000A75C0 /* Centroids.cpp */; };
 		DD04709B1F0A8D13000A75C0 /* Centroids.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470981F0A8D13000A75C0 /* Centroids.cpp */; };
+		DD04709F1F0AAB25000A75C0 /* Zarzadca.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD04709D1F0AAB25000A75C0 /* Zarzadca.cpp */; };
+		DD0470A01F0AAB25000A75C0 /* Zarzadca.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD04709D1F0AAB25000A75C0 /* Zarzadca.cpp */; };
+		DD0470A31F0BC678000A75C0 /* TextFileInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470A11F0BC678000A75C0 /* TextFileInterface.cpp */; };
+		DD0470A41F0BC678000A75C0 /* TextFileInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0470A11F0BC678000A75C0 /* TextFileInterface.cpp */; };
 		DD9FCDC61EE5BE04005F3314 /* CLIInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */; };
 		DD9FCDDB1EE944B5005F3314 /* ImageSegments.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9FCDD91EE944B5005F3314 /* ImageSegments.cpp */; };
 		DDD0C3CE1ED59A0800272DC3 /* BMPLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0C3C31ED59A0800272DC3 /* BMPLib.cpp */; };
@@ -48,10 +52,14 @@
 		DD0470811F0A34DA000A75C0 /* 06. Projekt - Kompresja - Release */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "06. Projekt - Kompresja - Release"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD04708F1F0A4D15000A75C0 /* ImageSegment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageSegment.cpp; path = "06. Projekt - Kompresja/ImageSegment.cpp"; sourceTree = SOURCE_ROOT; };
 		DD0470901F0A4D15000A75C0 /* ImageSegment.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ImageSegment.hpp; path = "06. Projekt - Kompresja/ImageSegment.hpp"; sourceTree = SOURCE_ROOT; };
-		DD0470941F0A7D63000A75C0 /* Centroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Centroid.cpp; path = "../06. Projekt - Kompresja/Centroid.cpp"; sourceTree = "<group>"; };
-		DD0470951F0A7D63000A75C0 /* Centroid.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Centroid.hpp; path = "../06. Projekt - Kompresja/Centroid.hpp"; sourceTree = "<group>"; };
-		DD0470981F0A8D13000A75C0 /* Centroids.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Centroids.cpp; path = "../06. Projekt - Kompresja/Centroids.cpp"; sourceTree = "<group>"; };
-		DD0470991F0A8D13000A75C0 /* Centroids.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Centroids.hpp; path = "../06. Projekt - Kompresja/Centroids.hpp"; sourceTree = "<group>"; };
+		DD0470941F0A7D63000A75C0 /* Centroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Centroid.cpp; path = "06. Projekt - Kompresja/Centroid.cpp"; sourceTree = SOURCE_ROOT; };
+		DD0470951F0A7D63000A75C0 /* Centroid.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Centroid.hpp; path = "06. Projekt - Kompresja/Centroid.hpp"; sourceTree = SOURCE_ROOT; };
+		DD0470981F0A8D13000A75C0 /* Centroids.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Centroids.cpp; path = "06. Projekt - Kompresja/Centroids.cpp"; sourceTree = SOURCE_ROOT; };
+		DD0470991F0A8D13000A75C0 /* Centroids.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Centroids.hpp; path = "06. Projekt - Kompresja/Centroids.hpp"; sourceTree = SOURCE_ROOT; };
+		DD04709D1F0AAB25000A75C0 /* Zarzadca.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Zarzadca.cpp; path = "06. Projekt - Kompresja/Zarzadca.cpp"; sourceTree = SOURCE_ROOT; };
+		DD04709E1F0AAB25000A75C0 /* Zarzadca.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Zarzadca.hpp; path = "06. Projekt - Kompresja/Zarzadca.hpp"; sourceTree = SOURCE_ROOT; };
+		DD0470A11F0BC678000A75C0 /* TextFileInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextFileInterface.cpp; path = "06. Projekt - Kompresja/TextFileInterface.cpp"; sourceTree = "<group>"; };
+		DD0470A21F0BC678000A75C0 /* TextFileInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TextFileInterface.hpp; path = "06. Projekt - Kompresja/TextFileInterface.hpp"; sourceTree = "<group>"; };
 		DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CLIInterface.cpp; path = "06. Projekt - Kompresja/CLIInterface.cpp"; sourceTree = SOURCE_ROOT; };
 		DD9FCDC51EE5BE04005F3314 /* CLIInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CLIInterface.hpp; path = "06. Projekt - Kompresja/CLIInterface.hpp"; sourceTree = SOURCE_ROOT; };
 		DD9FCDC71EE5BE16005F3314 /* Interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Interface.hpp; path = "06. Projekt - Kompresja/Interface.hpp"; sourceTree = SOURCE_ROOT; };
@@ -92,7 +100,18 @@
 				DD0470901F0A4D15000A75C0 /* ImageSegment.hpp */,
 			);
 			name = ImageSegmentation;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
+		};
+		DD04709C1F0AA98E000A75C0 /* Centroids */ = {
+			isa = PBXGroup;
+			children = (
+				DD0470941F0A7D63000A75C0 /* Centroid.cpp */,
+				DD0470951F0A7D63000A75C0 /* Centroid.hpp */,
+				DD0470981F0A8D13000A75C0 /* Centroids.cpp */,
+				DD0470991F0A8D13000A75C0 /* Centroids.hpp */,
+			);
+			name = Centroids;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD9FCDC81EE5BE1E005F3314 /* Interfaces */ = {
 			isa = PBXGroup;
@@ -100,9 +119,11 @@
 				DD9FCDC71EE5BE16005F3314 /* Interface.hpp */,
 				DD9FCDC41EE5BE04005F3314 /* CLIInterface.cpp */,
 				DD9FCDC51EE5BE04005F3314 /* CLIInterface.hpp */,
+				DD0470A11F0BC678000A75C0 /* TextFileInterface.cpp */,
+				DD0470A21F0BC678000A75C0 /* TextFileInterface.hpp */,
 			);
 			name = Interfaces;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DD9FCDC91EE5BE28005F3314 /* BMP Stuff */ = {
 			isa = PBXGroup;
@@ -112,7 +133,7 @@
 				DDD0C3C41ED59A0800272DC3 /* BMPLib.hpp */,
 			);
 			name = "BMP Stuff";
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DDD0C39E1ED57E1E00272DC3 = {
 			isa = PBXGroup;
@@ -129,7 +150,7 @@
 				DD0470811F0A34DA000A75C0 /* 06. Projekt - Kompresja - Release */,
 			);
 			name = Products;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DDD0C3A91ED57E1E00272DC3 /* 06. Projekt - Kompresja */ = {
 			isa = PBXGroup;
@@ -137,16 +158,15 @@
 				DD9FCDC81EE5BE1E005F3314 /* Interfaces */,
 				DD9FCDC91EE5BE28005F3314 /* BMP Stuff */,
 				DD0470931F0A7D2E000A75C0 /* ImageSegmentation */,
-				DD0470941F0A7D63000A75C0 /* Centroid.cpp */,
-				DD0470951F0A7D63000A75C0 /* Centroid.hpp */,
-				DD0470981F0A8D13000A75C0 /* Centroids.cpp */,
-				DD0470991F0A8D13000A75C0 /* Centroids.hpp */,
+				DD04709C1F0AA98E000A75C0 /* Centroids */,
 				DDD0C3C61ED59A0800272DC3 /* main.cpp */,
+				DD04709D1F0AAB25000A75C0 /* Zarzadca.cpp */,
+				DD04709E1F0AAB25000A75C0 /* Zarzadca.hpp */,
 				DDD0C3C51ED59A0800272DC3 /* GlobalDefines.hpp */,
 			);
 			name = "06. Projekt - Kompresja";
 			path = "05. Projekt - Kompresja";
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -229,9 +249,11 @@
 			files = (
 				DD0470881F0A34E5000A75C0 /* CLIInterface.cpp in Sources */,
 				DD0470891F0A34E5000A75C0 /* BMPLib.cpp in Sources */,
+				DD0470A41F0BC678000A75C0 /* TextFileInterface.cpp in Sources */,
 				DD04708C1F0A34E5000A75C0 /* ImageSegments.cpp in Sources */,
 				DD04708D1F0A34E5000A75C0 /* main.cpp in Sources */,
 				DD04709B1F0A8D13000A75C0 /* Centroids.cpp in Sources */,
+				DD0470A01F0AAB25000A75C0 /* Zarzadca.cpp in Sources */,
 				DD0470921F0A4D15000A75C0 /* ImageSegment.cpp in Sources */,
 				DD0470971F0A7D63000A75C0 /* Centroid.cpp in Sources */,
 			);
@@ -243,9 +265,11 @@
 			files = (
 				DDD0C3CF1ED59A0800272DC3 /* main.cpp in Sources */,
 				DD9FCDDB1EE944B5005F3314 /* ImageSegments.cpp in Sources */,
+				DD0470A31F0BC678000A75C0 /* TextFileInterface.cpp in Sources */,
 				DD9FCDC61EE5BE04005F3314 /* CLIInterface.cpp in Sources */,
 				DDD0C3CE1ED59A0800272DC3 /* BMPLib.cpp in Sources */,
 				DD04709A1F0A8D13000A75C0 /* Centroids.cpp in Sources */,
+				DD04709F1F0AAB25000A75C0 /* Zarzadca.cpp in Sources */,
 				DD0470911F0A4D15000A75C0 /* ImageSegment.cpp in Sources */,
 				DD0470961F0A7D63000A75C0 /* Centroid.cpp in Sources */,
 			);
@@ -381,6 +405,7 @@
 				DD0470861F0A34DA000A75C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DDD0C3A21ED57E1E00272DC3 /* Build configuration list for PBXProject "06. Projekt - Kompresja" */ = {
 			isa = XCConfigurationList;

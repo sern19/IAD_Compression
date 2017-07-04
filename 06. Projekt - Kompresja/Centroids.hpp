@@ -9,6 +9,29 @@
 #ifndef Centroids_hpp
 #define Centroids_hpp
 
-#include <stdio.h>
+#include <vector>
+#include "Centroid.hpp"
+#include "BMPAdditionalLib.h"
+
+class ImageSegments;
+
+class Centroids
+{
+private:
+    unsigned int prefferedSize;
+    std::vector<Centroid> centroids;
+    std::pair<doublePixelRGB,doublePixelRGB> minsMaxsRGB;
+    std::pair<doublePixelGray,doublePixelGray> minsMaxsGray;
+    bool isRGB;
+    void generateCentroid(unsigned int x);
+    void tryToRegenerateCentroid(unsigned int x);
+    void calculateMinsMaxs(unsigned int mode, ImageSegments* imageSegments);
+public:
+    Centroids(unsigned int numberOfCentroids, unsigned int prefferedSize, bool isRGB, ImageSegments* imageSegments);
+    unsigned int getNumberOfCentroids();
+    Centroid* getCentroid(unsigned int x);
+    void regenerateDeadCentroids();
+    friend bool operator==(const Centroids& centroids1, const Centroids& centroids2);
+};
 
 #endif /* Centroids_hpp */

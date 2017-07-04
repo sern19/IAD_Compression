@@ -9,16 +9,26 @@
 #include <iostream>
 
 
-#include "BMPLib.hpp"
-#include "ImageSegments.hpp"
+#include "Zarzadca.hpp"
+#include "CLIInterface.hpp"
+#include "TextFileInterface.hpp"
 
 int main(int argc, const char * argv[])
 {
-    BMPImage tmp("t2.bmp");
-    ImageSegments segmenty=ImageSegments(8, tmp); // 6 i 8 bardzo optymalna liczba la predkosci az do normalizacji
-    segmenty.normalizeSegments();
-    std::cout << "Lol koniec";
-    std::cin.get();
-    //tmp.saveFile("t222.bmp");
+    Interface* interfejs=new TextFileInterface();
+    Zarzadca* glownyZarzadca=nullptr;
+    try
+    {
+        glownyZarzadca=new Zarzadca("08.bmp", 384, 4, interfejs); // 6 i 8 pixeli to optymalna wartość dla prędkości wykonania segmentacji, 4 najszybsze w przypadku nauki
+    }
+    catch (std::string comunicat)
+    {
+        interfejs->showComunicat(comunicat);
+        return 1;
+    }
+    glownyZarzadca->glownaPetlaKmeans(4,20);
+    glownyZarzadca->zapiszDoPliku("c08.bmp");
+    if (glownyZarzadca!=nullptr) delete glownyZarzadca;
+    if (interfejs!=nullptr) delete interfejs;
     return 0;
 }

@@ -52,6 +52,13 @@ struct doublePixelRGB
     double r=0,g=0,b=0;
     doublePixelRGB() {}
     doublePixelRGB(double r, double g, double b): r(r), b(b), g(g) {}
+    doublePixelRGB& operator=(pixelRGB& input)
+    {
+        r=input.r;
+        g=input.g;
+        b=input.g;
+        return *this;
+    }
 };
 
 struct doublePixelGray
@@ -59,6 +66,11 @@ struct doublePixelGray
     double gray=0;
     doublePixelGray() {}
     doublePixelGray(double gray): gray(gray) {}
+    doublePixelGray& operator=(pixelGray& input)
+    {
+        gray=input.gray;
+        return *this;
+    }
 };
 
 #endif /* BMPAdditionalLib_h */

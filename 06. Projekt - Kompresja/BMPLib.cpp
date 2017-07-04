@@ -30,7 +30,8 @@ void BMPImage::saveFile(std::string filename)
 {
     int i,j;
     uint8_t tmp = 0, zero = 0;
-    std::ofstream outputFile(filename);
+    std::ofstream outputFile;
+    outputFile.open(filename, std::ios_base::out | std::ios_base::binary);
     if (outputFile.is_open())
     {
         //FileHeader
@@ -121,7 +122,7 @@ void BMPImage::saveFile(std::string filename)
     }
     else
     {
-        throw L"Nie można utworzyć pliku!";
+        throw std::string("Nie można utworzyć pliku!");
     }
 }
 void BMPImage::reloadFile() { loadFile(); }
@@ -130,7 +131,8 @@ void BMPImage::loadFile()
 {
     int i,j;
     uint8_t tmp = 0;
-    std::ifstream inputFile(filename);
+    std::ifstream inputFile;
+    inputFile.open(filename, std::ios_base::in | std::ios_base::binary);
     if (inputFile.is_open())
     {
         inputFile.seekg(0,std::ios_base::end);
@@ -146,7 +148,7 @@ void BMPImage::loadFile()
         if ((fileHeader.bfType!=19778)||(fileHeader.bfReserved1!=0)||(fileHeader.bfReserved2!=0)||(fileSize!=fileHeader.bfSize))
         {
             inputFile.close();
-            throw L"To nie jest prawidłowy plik bitmapy!";
+            throw std::string("To nie jest prawidłowy plik bitmapy!");
         }
         //InfoHeader
         inputFile.read((char*)&infoHeader.biSize, sizeof(infoHeader.biSize));
@@ -164,7 +166,7 @@ void BMPImage::loadFile()
         if ((infoHeader.biCompression!=0)||((infoHeader.biBitCount!=8)&&(infoHeader.biBitCount!=24)))
         {
             inputFile.close();
-            throw L"Jedynie nieskompresowane obrazy 8-bitowe bądź 24-bitowe są obsługiwane!";
+            throw std::string("Jedynie nieskompresowane obrazy 8-bitowe bądź 24-bitowe są obsługiwane!");
         }
         //Calculate stride
         stride = infoHeader.biWidth*infoHeader.biBitCount;  // bits per row
@@ -188,7 +190,7 @@ void BMPImage::loadFile()
                 if((tymczasowy.r!=tymczasowy.g)||(tymczasowy.r!=tymczasowy.b))
                 {
                     inputFile.close();
-                    throw L"Indeksowane kolorowe obrazy 8-bitowe nie są obsługiwane!";
+                    throw std::string("Indeksowane kolorowe obrazy 8-bitowe nie są obsługiwane!");
                 }
             }
             pixelsGray=std::vector<std::vector<pixelGray>>(abs(infoHeader.biHeight),std::vector<pixelGray>(abs(infoHeader.biWidth)));
@@ -247,7 +249,7 @@ void BMPImage::loadFile()
     }
     else
     {
-        throw L"Nie można otworzyć pliku!";
+        throw std::string("Nie można otworzyć pliku!");
     }
 }
 bool BMPImage::isRGB()
@@ -261,3 +263,5 @@ unsigned int BMPImage::getHeight() { return abs(infoHeader.biHeight); }
 unsigned int BMPImage::getWidth() { return abs(infoHeader.biWidth); }
 std::vector<std::vector<pixelRGB>> BMPImage::getRGBPixels() { return pixelsRGB; }
 std::vector<std::vector<pixelGray>> BMPImage::getGrayPixels() { return pixelsGray; }
+void BMPImage::setRGBPixels(std::vector<std::vector<pixelRGB>> pixels) { pixelsRGB=pixels; }
+void BMPImage::setGrayPixels(std::vector<std::vector<pixelGray>> pixels) { pixelsGray=pixels; }

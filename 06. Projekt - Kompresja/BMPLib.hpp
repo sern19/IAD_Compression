@@ -36,6 +36,8 @@ public:
     unsigned int getWidth();
     std::vector<std::vector<pixelRGB>> getRGBPixels();
     std::vector<std::vector<pixelGray>> getGrayPixels();
+    void setRGBPixels(std::vector<std::vector<pixelRGB>> pixels);
+    void setGrayPixels(std::vector<std::vector<pixelGray>> pixels);
 };
 
 #endif /* BMPLib_hpp */
