@@ -44,6 +44,8 @@ Centroids::Centroids(unsigned int numberOfCentroids, unsigned int prefferedSize,
     }
 }
 
+void Centroids::setCentroids(std::vector<Centroid> centroids) { this->centroids=centroids; }
+
 void Centroids::generateCentroid(unsigned int x)
 {
     unsigned int i,j;
@@ -139,10 +141,12 @@ void Centroids::tryToRegenerateCentroid(unsigned int x)
 
 unsigned int Centroids::getNumberOfCentroids() { return (unsigned int)centroids.size(); }
 Centroid* Centroids::getCentroid(unsigned int x) { return &centroids[x]; }
+std::pair<doublePixelRGB,doublePixelRGB> Centroids::getMinsMaxsRGB() { return minsMaxsRGB; }
+std::pair<doublePixelGray,doublePixelGray> Centroids::getMinsMaxsGray() { return minsMaxsGray; }
 
-void Centroids::regenerateDeadCentroids()
+unsigned int Centroids::regenerateDeadCentroids()
 {
-    unsigned int i,k;
+    unsigned int i,k, output=0;
     
     std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
     
@@ -153,6 +157,21 @@ void Centroids::regenerateDeadCentroids()
         for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
             if (watki[k].joinable()) watki[k].join();
     }
+    
+    for (i=0;i<centroids.size();i++) if (centroids[i].getClosestForSegments()==0) output++;
+    return output;
+}
+
+void Centroids::clearCentroidsClosestForSegments()
+{
+    unsigned int i;
+    for (i=0;i<centroids.size();i++) centroids[i].clearClosestForSegments();
+}
+
+void Centroids::toggleCentroidsJustGenerated()
+{
+    unsigned int i;
+    for (i=0;i<centroids.size();i++) centroids[i].toggleJustGenerated();
 }
 
 bool operator==(const Centroids& centroids1, const Centroids& centroids2)

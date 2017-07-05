@@ -11,6 +11,8 @@
 #include <float.h> //DBL_MAX
 #include <math.h>
 #include <thread>
+#include <stdlib.h> //srand
+#include <map> //Sortowanie przy uzyciu multimapy
 
 Zarzadca::Zarzadca(std::string imageFilename, unsigned int numberOfCentroids, unsigned int segmentSize, Interface* interfejs): interfejs(interfejs)
 {
@@ -52,11 +54,15 @@ Zarzadca::Zarzadca(std::string imageFilename, unsigned int numberOfCentroids, un
         interfejs->showComunicat("Skończono normalizację pixeli w segmentach");
     }
     
+    //Jezeli centroidow ma byc wiecej niz segmentow, zmniejszamy te wartosc
+    if (numberOfCentroids>imageSegments->getNumberOfSegments()) numberOfCentroids=imageSegments->getNumberOfSegments();
+    
     //Tworzenie centroidów
     interfejs->showText("Generuję ");
     interfejs->showText((int)numberOfCentroids);
     interfejs->showComunicat(" centroidów");
     centroids=new Centroids(numberOfCentroids, segmentSize, sourceImage.isRGB(), imageSegments);
+    distances.resize(imageSegments->getNumberOfSegments(),std::vector<double>(centroids->getNumberOfCentroids(),DBL_MAX));
     interfejs->showComunicat("");
     interfejs->showComunicat("Program gotowy do pracy");
     interfejs->showComunicat("");
@@ -66,6 +72,28 @@ Zarzadca::~Zarzadca()
 {
     delete imageSegments;
     delete centroids;
+}
+
+void Zarzadca::calculateDistanceForCentroids(unsigned int centroid1Number, unsigned int centroid2Number, double* result)
+{
+    double output=0.0;
+    unsigned int i,j;
+    if (sourceImage.isRGB())
+    {
+        for (i=0;i<centroids->getCentroid(centroid1Number)->getPixelsRGB().size();i++)
+            for (j=0;j<centroids->getCentroid(centroid1Number)->getPixelsRGB()[i].size();j++)
+            {
+                output+=pow((centroids->getCentroid(centroid1Number)->getPixelsRGB()[i][j].r - centroids->getCentroid(centroid2Number)->getPixelsRGB()[i][j].r),2);
+                output+=pow((centroids->getCentroid(centroid1Number)->getPixelsRGB()[i][j].g - centroids->getCentroid(centroid2Number)->getPixelsRGB()[i][j].g),2);
+                output+=pow((centroids->getCentroid(centroid1Number)->getPixelsRGB()[i][j].b - centroids->getCentroid(centroid2Number)->getPixelsRGB()[i][j].b),2);
+            }
+    }
+    else
+    {
+        for (i=0;i<centroids->getCentroid(centroid1Number)->getPixelsGray().size();i++)
+            for (j=0;j<centroids->getCentroid(centroid1Number)->getPixelsGray()[i].size();j++)
+                output+=pow((centroids->getCentroid(centroid1Number)->getPixelsGray()[i][j].gray - centroids->getCentroid(centroid2Number)->getPixelsGray()[i][j].gray),2);
+    }
 }
 
 void Zarzadca::calculateDistance(unsigned int segmentNumber, unsigned int centroidNumber, double* result)
@@ -119,8 +147,6 @@ void Zarzadca::findClosestCentroidForSegment(unsigned int x)
     unsigned int closestCentroidNumber=imageSegments->getSegment(x)->getClosestCentroidNumber();
     double closestDistance;
     
-    std::vector<double> distances(centroids->getNumberOfCentroids());
-    
     if (closestCentroidNumber==UINT_MAX)
     {
         imageSegments->getSegment(x)->setClosestCentroidNumber(0);
@@ -133,14 +159,17 @@ void Zarzadca::findClosestCentroidForSegment(unsigned int x)
     //Wyliczanie odleglosci
     for (i=0;i<centroids->getNumberOfCentroids();i++)
     {
-            calculateDistance(x,i,&distances[i]);
+        if ((centroids->getCentroid(i)->getJustGenerated())||(distances[x][i]==DBL_MAX))
+        {
+            calculateDistance(x,i,&distances[x][i]);
+        }
     }
     
     //Szukanie najblizszego
     for (i=0;i<centroids->getNumberOfCentroids();i++)
-    	if (distances[i]<closestDistance)
+    	if (distances[x][i]<closestDistance)
         {
-            closestDistance=distances[i];
+            closestDistance=distances[x][i];
             closestCentroidNumber=i;
         }
     //Operacje na segmentach i centroidach
@@ -150,6 +179,23 @@ void Zarzadca::findClosestCentroidForSegment(unsigned int x)
         imageSegments->getSegment(x)->setClosestCentroidNumber(closestCentroidNumber); //Ustawienie nowego najbliższego
         centroids->getCentroid(closestCentroidNumber)->incrementClosestForSegments(); //Dodanie w nowym centroidzie
     }
+}
+
+void Zarzadca::sortCentroidsForSegment(unsigned int x)
+{
+    unsigned int i;
+    std::multimap<double,Centroid> tymczasowaMapa;
+    std::vector<Centroid> tymczasoweCentroidy;
+    
+    tymczasoweCentroidy.reserve(centroids->getNumberOfCentroids());
+    
+    for (i=0;i<centroids->getNumberOfCentroids();i++)
+        tymczasowaMapa.insert(std::make_pair(distances[x][i], *centroids->getCentroid(i)));
+    for (auto it = tymczasowaMapa.begin(); it != tymczasowaMapa.end(); it++)
+        tymczasoweCentroidy.push_back(it->second);
+    
+    centroids->setCentroids(tymczasoweCentroidy);
+    centroids->toggleCentroidsJustGenerated();
 }
 
 void Zarzadca::averageClosestsCentroids()
@@ -247,6 +293,193 @@ void Zarzadca::averageClosestsCentroids()
     }
 }
 
+void Zarzadca::resetDistances()
+{
+    unsigned int i,j;
+    for (i=0;i<distances.size();i++)
+        for (j=0;j<distances[i].size();j++)
+            distances[i][j]=DBL_MAX;
+}
+
+void Zarzadca::searchForClosestCentroidsLoop()
+{
+    unsigned int i,k;
+    
+    std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
+    
+    for (i=0;i<imageSegments->getNumberOfSegments();i+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+    {
+        for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+i)<imageSegments->getNumberOfSegments());k++)
+            watki[k]=std::thread(&Zarzadca::findClosestCentroidForSegment,this,i+k);
+        for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+            if (watki[k].joinable()) watki[k].join();
+    }
+    centroids->toggleCentroidsJustGenerated();
+}
+
+void Zarzadca::calculatePixelForNeuralGas(unsigned int mode, unsigned int numberOfSegment, unsigned int numberOfCentroid, unsigned int x, unsigned int y, double eps, double lambda, double* result)
+{
+    if (mode==MODE_R)
+    {
+		if (imageSegments->getSegment(numberOfSegment)->getIsModified())
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].r+eps*exp(((-1.0)*(double)numberOfCentroid)/lambda)*(imageSegments->getSegment(numberOfSegment)->getModifiedPixelsRGB()[x][y].r-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].r);
+        else
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].r+eps*exp(((-1.0)*(double)numberOfCentroid)/lambda)*(imageSegments->getSegment(numberOfSegment)->getOrginalPixelsRGB()[x][y].r-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].r);
+    }
+    else if (mode==MODE_G)
+    {
+        if (imageSegments->getSegment(numberOfSegment)->getIsModified())
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].g+eps*exp(((-1.0)*(double)numberOfCentroid)/lambda)*(imageSegments->getSegment(numberOfSegment)->getModifiedPixelsRGB()[x][y].g-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].g);
+        else
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].g+eps*exp(((-1.0)*(double)numberOfCentroid)/lambda)*(imageSegments->getSegment(numberOfSegment)->getOrginalPixelsRGB()[x][y].g-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].g);
+    }
+    else if (mode==MODE_B)
+    {
+        if (imageSegments->getSegment(numberOfSegment)->getIsModified())
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].b+eps*exp(((-1.0)*(double)numberOfCentroid)/lambda)*(imageSegments->getSegment(numberOfSegment)->getModifiedPixelsRGB()[x][y].b-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].b);
+        else
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].b+eps*exp(((-1.0)*(double)numberOfCentroid)/lambda)*(imageSegments->getSegment(numberOfSegment)->getOrginalPixelsRGB()[x][y].b-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].b);
+    }
+    else if (mode==MODE_GRAY)
+    {
+        if (imageSegments->getSegment(numberOfSegment)->getIsModified())
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsGray()[x][y].gray+eps*exp(((-1.0)*(double)numberOfCentroid)/lambda)*(imageSegments->getSegment(numberOfSegment)->getModifiedPixelsGray()[x][y].gray-centroids->getCentroid(numberOfCentroid)->getPixelsGray()[x][y].gray);
+        else
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsGray()[x][y].gray+eps*exp(((-1.0)*(double)numberOfCentroid)/lambda)*(imageSegments->getSegment(numberOfSegment)->getOrginalPixelsGray()[x][y].gray-centroids->getCentroid(numberOfCentroid)->getPixelsGray()[x][y].gray);
+    }
+}
+
+void Zarzadca::calculatePixelForKohonen(unsigned int mode, unsigned int numberOfSegment, unsigned int numberOfCentroid, unsigned int x, unsigned int y, double eps, double lambda, double squareDistance, double* result)
+{
+    if (mode==MODE_R)
+    {
+        if (imageSegments->getSegment(numberOfSegment)->getIsModified())
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].r+eps*exp(((-1.0)*(double)squareDistance)/(2.0*pow(lambda,2)))*(imageSegments->getSegment(numberOfSegment)->getModifiedPixelsRGB()[x][y].r-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].r);
+        else
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].r+eps*exp(((-1.0)*(double)squareDistance)/(2.0*pow(lambda,2)))*(imageSegments->getSegment(numberOfSegment)->getOrginalPixelsRGB()[x][y].r-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].r);
+    }
+    else if (mode==MODE_G)
+    {
+        if (imageSegments->getSegment(numberOfSegment)->getIsModified())
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].g+eps*exp(((-1.0)*(double)squareDistance)/(2.0*pow(lambda,2)))*(imageSegments->getSegment(numberOfSegment)->getModifiedPixelsRGB()[x][y].g-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].g);
+        else
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].g+eps*exp(((-1.0)*(double)squareDistance)/(2.0*pow(lambda,2)))*(imageSegments->getSegment(numberOfSegment)->getOrginalPixelsRGB()[x][y].g-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].g);
+    }
+    else if (mode==MODE_B)
+    {
+        if (imageSegments->getSegment(numberOfSegment)->getIsModified())
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].b+eps*exp(((-1.0)*(double)squareDistance)/(2.0*pow(lambda,2)))*(imageSegments->getSegment(numberOfSegment)->getModifiedPixelsRGB()[x][y].b-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].b);
+        else
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].b+eps*exp(((-1.0)*(double)squareDistance)/(2.0*pow(lambda,2)))*(imageSegments->getSegment(numberOfSegment)->getOrginalPixelsRGB()[x][y].b-centroids->getCentroid(numberOfCentroid)->getPixelsRGB()[x][y].b);
+    }
+    else if (mode==MODE_GRAY)
+    {
+        if (imageSegments->getSegment(numberOfSegment)->getIsModified())
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsGray()[x][y].gray+eps*exp(((-1.0)*(double)squareDistance)/(2.0*pow(lambda,2)))*(imageSegments->getSegment(numberOfSegment)->getModifiedPixelsGray()[x][y].gray-centroids->getCentroid(numberOfCentroid)->getPixelsGray()[x][y].gray);
+        else
+            *result=centroids->getCentroid(numberOfCentroid)->getPixelsGray()[x][y].gray+eps*exp(((-1.0)*(double)squareDistance)/(2.0*pow(lambda,2)))*(imageSegments->getSegment(numberOfSegment)->getOrginalPixelsGray()[x][y].gray-centroids->getCentroid(numberOfCentroid)->getPixelsGray()[x][y].gray);
+    }
+}
+
+std::vector<std::vector<doublePixelRGB>> Zarzadca::calculatePixelsRGBForNeuralGas(unsigned int numberOfSegment, unsigned int numberOfCentroid, double eps, double lambda)
+{
+    std::vector<std::vector<doublePixelRGB>> output(imageSegments->getPrefferedSize(),std::vector<doublePixelRGB>(imageSegments->getPrefferedSize()));
+    
+    unsigned int i,j,k;
+    
+    std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA][3];
+    
+    for (i=0;i<imageSegments->getPrefferedSize();i++)
+        for (j=0;j<imageSegments->getPrefferedSize();j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+        {
+            for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<imageSegments->getPrefferedSize());k++)
+            {
+                watki[k][0]=std::thread(&Zarzadca::calculatePixelForNeuralGas,this,MODE_R,numberOfSegment,numberOfCentroid,i,j+k,eps,lambda,&output[i][k+j].r);
+                watki[k][1]=std::thread(&Zarzadca::calculatePixelForNeuralGas,this,MODE_G,numberOfSegment,numberOfCentroid,i,j+k,eps,lambda,&output[i][k+j].g);
+                watki[k][2]=std::thread(&Zarzadca::calculatePixelForNeuralGas,this,MODE_B,numberOfSegment,numberOfCentroid,i,j+k,eps,lambda,&output[i][k+j].b);
+            }
+            for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+            {
+                if (watki[k][0].joinable()) watki[k][0].join();
+                if (watki[k][1].joinable()) watki[k][1].join();
+                if (watki[k][2].joinable()) watki[k][2].join();
+            }
+        }
+    return output;
+}
+
+std::vector<std::vector<doublePixelGray>> Zarzadca::calculatePixelsGrayForNeuralGas(unsigned int numberOfSegment, unsigned int numberOfCentroid, double eps, double lambda)
+{
+    std::vector<std::vector<doublePixelGray>> output(imageSegments->getPrefferedSize(),std::vector<doublePixelGray>(imageSegments->getPrefferedSize()));
+    
+    unsigned int i,j,k;
+    
+    std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
+    
+    for (i=0;i<imageSegments->getPrefferedSize();i++)
+        for (j=0;j<imageSegments->getPrefferedSize();j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+        {
+            for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<imageSegments->getPrefferedSize());k++)
+                watki[k]=std::thread(&Zarzadca::calculatePixelForNeuralGas,this,MODE_GRAY,numberOfSegment,numberOfCentroid,i,j+k,eps,lambda,&output[i][k+j].gray);
+            for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+                if (watki[k].joinable()) watki[k].join();
+        }
+    return output;
+}
+
+std::vector<std::vector<doublePixelRGB>> Zarzadca::calculatePixelsRGBForKohonen(unsigned int numberOfSegment, unsigned int numberOfCentroid, double eps, double lambda)
+{
+    std::vector<std::vector<doublePixelRGB>> output(imageSegments->getPrefferedSize(),std::vector<doublePixelRGB>(imageSegments->getPrefferedSize()));
+    
+    unsigned int i,j,k;
+    double squareDistance;
+    
+    std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA][3];
+    
+    calculateDistanceForCentroids(imageSegments->getSegment(numberOfSegment)->getClosestCentroidNumber(), numberOfCentroid, &squareDistance);
+    squareDistance*=squareDistance;
+
+    for (i=0;i<imageSegments->getPrefferedSize();i++)
+        for (j=0;j<imageSegments->getPrefferedSize();j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+        {
+            for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<imageSegments->getPrefferedSize());k++)
+            {
+                watki[k][0]=std::thread(&Zarzadca::calculatePixelForKohonen,this,MODE_R,numberOfSegment,numberOfCentroid,i,j+k,eps,lambda,squareDistance,&output[i][k+j].r);
+                watki[k][1]=std::thread(&Zarzadca::calculatePixelForKohonen,this,MODE_G,numberOfSegment,numberOfCentroid,i,j+k,eps,lambda,squareDistance,&output[i][k+j].g);
+                watki[k][2]=std::thread(&Zarzadca::calculatePixelForKohonen,this,MODE_B,numberOfSegment,numberOfCentroid,i,j+k,eps,lambda,squareDistance,&output[i][k+j].b);
+            }
+            for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+            {
+                if (watki[k][0].joinable()) watki[k][0].join();
+                if (watki[k][1].joinable()) watki[k][1].join();
+                if (watki[k][2].joinable()) watki[k][2].join();
+            }
+        }
+    return output;
+}
+std::vector<std::vector<doublePixelGray>> Zarzadca::calculatePixelsGrayForKohonen(unsigned int numberOfSegment, unsigned int numberOfCentroid, double eps, double lambda)
+{
+    std::vector<std::vector<doublePixelGray>> output(imageSegments->getPrefferedSize(),std::vector<doublePixelGray>(imageSegments->getPrefferedSize()));
+    
+    unsigned int i,j,k;
+    double squareDistance;
+    
+    std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
+    
+    calculateDistanceForCentroids(imageSegments->getSegment(numberOfSegment)->getClosestCentroidNumber(), numberOfCentroid, &squareDistance);
+    squareDistance*=squareDistance;
+    
+    for (i=0;i<imageSegments->getPrefferedSize();i++)
+        for (j=0;j<imageSegments->getPrefferedSize();j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+        {
+            for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<imageSegments->getPrefferedSize());k++)
+                watki[k]=std::thread(&Zarzadca::calculatePixelForKohonen,this,MODE_GRAY,numberOfSegment,numberOfCentroid,i,j+k,eps,lambda,squareDistance,&output[i][k+j].gray);
+            for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+                if (watki[k].joinable()) watki[k].join();
+        }
+    return output;
+}
+
 double Zarzadca::calculateQuantizationError()
 {
     double suma=0.0, result;
@@ -287,10 +520,8 @@ double Zarzadca::calculatePSNR(BMPImage source, BMPImage result)
 
 void Zarzadca::glownaPetlaKmeans(unsigned int numberOfRetries, unsigned int numberOfIterations)
 {
-    unsigned int mainLoop,i,j,k;
+    unsigned int mainLoop,i;
     double currentQuantizationError, minimumQuantizationError=DBL_MAX;
-    
-    std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
     
     interfejs->showComunicat("Rozpoczynam pętlę k-średnich");
     
@@ -317,16 +548,12 @@ void Zarzadca::glownaPetlaKmeans(unsigned int numberOfRetries, unsigned int numb
         interfejs->showComunicat("%");
         for (i=0;i<numberOfIterations;i++)
         {
+
             //Szukanie najblizszych centroidow
-            for (j=0;j<imageSegments->getNumberOfSegments();j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
-            {
-                for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<imageSegments->getNumberOfSegments());k++)
-                    watki[k]=std::thread(&Zarzadca::findClosestCentroidForSegment,this,j+k);
-                for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
-                    if (watki[k].joinable()) watki[k].join();
-            }
+            searchForClosestCentroidsLoop();
+            
             //Przemieszczanie martwych centroidow
-            centroids->regenerateDeadCentroids();
+			centroids->regenerateDeadCentroids();
             
             //Zapis aktualnych centroidow
             previosuCentroids=*centroids;
@@ -373,18 +600,166 @@ void Zarzadca::glownaPetlaKmeans(unsigned int numberOfRetries, unsigned int numb
     }
     
     *centroids=bestCentroids;
+    resetDistances();
     imageSegments->clearClosestsCentroids();
     
     //Szukanie najblizszych centroidow
-    for (j=0;j<imageSegments->getNumberOfSegments();j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
-    {
-        for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<imageSegments->getNumberOfSegments());k++)
-            watki[k]=std::thread(&Zarzadca::findClosestCentroidForSegment,this,j+k);
-        for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
-            if (watki[k].joinable()) watki[k].join();
-    }
+    searchForClosestCentroidsLoop();
     
     interfejs->showComunicat("Skończono pętlę k-średnich");
+    interfejs->showComunicat("");
+    hasRunAtLeastOnce=true;
+}
+
+void Zarzadca::glownaPetlaNeuralGas(unsigned int numberOfIterations, double initialLambda, double initialEps)
+{
+    unsigned int mainLoop,i,randomSegmentNumber;
+    double lambda,eps,iterationConst=(double)numberOfIterations/log(initialLambda);
+    
+    
+    unsigned int numberOfDeadCentroids=0, previousNumberOfDeadCentroids=UINT_MAX;
+    
+    interfejs->showComunicat("Rozpoczynam pętlę gazu neuronowego");
+    
+    if (hasRunAtLeastOnce)
+    {
+        unsigned int numberOfCentroids=centroids->getNumberOfCentroids();
+        interfejs->showText("\tProgram był już uruchomiony conajmniej raz, generuję ");
+        interfejs->showText((int)numberOfCentroids);
+        interfejs->showComunicat(" nowych centroidów");
+        if (centroids!=nullptr) delete centroids;
+        centroids=new Centroids(numberOfCentroids,imageSegments->getPrefferedSize(),sourceImage.isRGB(),imageSegments);
+        imageSegments->clearClosestsCentroids();
+    }
+    
+    //Poszukiwania najblizszego centroidu i przelosowywanie az do momentu gdy nie będzie martwych centroidow
+    interfejs->showComunicat("\tSzukam i ponownie generuję martwe centroidy");
+    interfejs->showComunicat("\t\t0%");
+    do
+    {
+        //Szukanie najblizszych centroidow
+        searchForClosestCentroidsLoop();
+        
+        numberOfDeadCentroids=centroids->regenerateDeadCentroids();
+        if (previousNumberOfDeadCentroids>numberOfDeadCentroids)
+        {
+            interfejs->showText("\t\t");
+            interfejs->showText(((double)centroids->getNumberOfCentroids()-numberOfDeadCentroids)/(double)centroids->getNumberOfCentroids()*100.0);
+            interfejs->showComunicat("%");
+            previousNumberOfDeadCentroids=numberOfDeadCentroids;
+        }
+    } while (numberOfDeadCentroids!=0);
+    
+    //Srand
+    srand((unsigned int)time(NULL));
+    
+    //Glowna petla
+    interfejs->showComunicat("\tRozpoczynam główną pętlę");
+    for (mainLoop=0;mainLoop<numberOfIterations;mainLoop++)
+    {
+        lambda=initialLambda*exp(((-1.0)*(double)mainLoop)/iterationConst);
+        eps=initialEps*exp(((-1.0)*(double)mainLoop)/(double)numberOfIterations);
+        
+        //Losowanie segmentu
+        randomSegmentNumber=rand()%imageSegments->getNumberOfSegments();
+        
+        //Sortowanie wg wylosowanego segmentu
+        sortCentroidsForSegment(randomSegmentNumber);
+        
+        //Zmiana wartosci w centroidach
+        for (i=0;i<centroids->getNumberOfCentroids();i++)
+        {
+            if (sourceImage.isRGB()) centroids->getCentroid(i)->setPixelsRGB(calculatePixelsRGBForNeuralGas(randomSegmentNumber, i, eps, lambda));
+        	else centroids->getCentroid(i)->setPixelsGray(calculatePixelsGrayForNeuralGas(randomSegmentNumber, i, eps, lambda));
+        }
+        
+        centroids->clearCentroidsClosestForSegments();
+        imageSegments->clearClosestsCentroids();
+    }
+    
+    //Szukanie najblizszych centroidow
+    searchForClosestCentroidsLoop();
+    
+    
+    interfejs->showComunicat("Skończono pętlę gazu neuronowego");
+    interfejs->showComunicat("");
+    hasRunAtLeastOnce=true;
+}
+
+void Zarzadca::glownaPetlaKohonen(unsigned int numberOfIterations, double initialEps)
+{
+    unsigned int mainLoop,i,randomSegmentNumber;
+    double initialLambda=imageSegments->getMinsMaxsOfPixels()*0.16;
+    double lambda,eps,iterationConst=(double)numberOfIterations/log(initialLambda);
+    
+    unsigned int numberOfDeadCentroids=0, previousNumberOfDeadCentroids=UINT_MAX;
+    
+    interfejs->showComunicat("Rozpoczynam pętlę Kohonena");
+    
+    if (hasRunAtLeastOnce)
+    {
+        unsigned int numberOfCentroids=centroids->getNumberOfCentroids();
+        interfejs->showText("\tProgram był już uruchomiony conajmniej raz, generuję ");
+        interfejs->showText((int)numberOfCentroids);
+        interfejs->showComunicat(" nowych centroidów");
+        if (centroids!=nullptr) delete centroids;
+        centroids=new Centroids(numberOfCentroids,imageSegments->getPrefferedSize(),sourceImage.isRGB(),imageSegments);
+        imageSegments->clearClosestsCentroids();
+    }
+    
+    //Poszukiwania najblizszego centroidu i przelosowywanie az do momentu gdy nie będzie martwych centroidow
+    interfejs->showComunicat("\tSzukam i ponownie generuję martwe centroidy");
+    interfejs->showComunicat("\t\t0%");
+    do
+    {
+        //Szukanie najblizszych centroidow
+        searchForClosestCentroidsLoop();
+        
+        numberOfDeadCentroids=centroids->regenerateDeadCentroids();
+        if (previousNumberOfDeadCentroids>numberOfDeadCentroids)
+        {
+            interfejs->showText("\t\t");
+            interfejs->showText(((double)centroids->getNumberOfCentroids()-numberOfDeadCentroids)/(double)centroids->getNumberOfCentroids()*100.0);
+            interfejs->showComunicat("%");
+            previousNumberOfDeadCentroids=numberOfDeadCentroids;
+        }
+    } while (numberOfDeadCentroids!=0);
+    
+    //Srand
+    srand((unsigned int)time(NULL));
+    
+    //Glowna petla
+    interfejs->showComunicat("\tRozpoczynam główną pętlę");
+    for (mainLoop=0;mainLoop<numberOfIterations;mainLoop++)
+    {
+        lambda=initialLambda*exp(((-1.0)*(double)mainLoop)/iterationConst);
+        eps=initialEps*exp(((-1.0)*(double)mainLoop)/(double)numberOfIterations);
+        
+        //Losowanie segmentu
+        randomSegmentNumber=rand()%imageSegments->getNumberOfSegments();
+        
+        //Sortowanie wg wylosowanego segmentu
+        searchForClosestCentroidsLoop();
+        
+        //Zmiana wartosci w centroidach
+        for (i=0;i<centroids->getNumberOfCentroids();i++)
+        {
+            if (lambda>distances[randomSegmentNumber][i])
+            {
+                if (sourceImage.isRGB()) centroids->getCentroid(i)->setPixelsRGB(calculatePixelsRGBForKohonen(randomSegmentNumber, i, eps, lambda));
+                else centroids->getCentroid(i)->setPixelsGray(calculatePixelsGrayForKohonen(randomSegmentNumber, i, eps, lambda));
+            }
+        }
+        
+        centroids->clearCentroidsClosestForSegments();
+        imageSegments->clearClosestsCentroids();
+    }
+    
+    //Szukanie najblizszych centroidow
+    searchForClosestCentroidsLoop();
+    
+    
+    interfejs->showComunicat("Skończono pętlę Kohonena");
     interfejs->showComunicat("");
     hasRunAtLeastOnce=true;
 }
@@ -425,8 +800,11 @@ void Zarzadca::zapiszDoPliku(std::string imageFilename)
     else imageToSave.setGrayPixels(imageSegments->getPixelsGray());
     interfejs->showComunicat("Skończono odtwarzać pixele do obrazka");
     
-    interfejs->showText("Obliczone PSNR: ");
-    interfejs->showComunicat(calculatePSNR(sourceImage, imageToSave));
+    if (CZY_WYLICZAC_PSNR)
+    {
+        interfejs->showText("Obliczone PSNR: ");
+        interfejs->showComunicat(calculatePSNR(sourceImage, imageToSave));
+    }
     
     interfejs->showText("Próbuję zapisać obrazek do pliku o nazwie ");
     interfejs->showComunicat(imageFilename);

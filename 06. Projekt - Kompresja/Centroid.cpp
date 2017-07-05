@@ -15,12 +15,16 @@ Centroid::Centroid(Centroids* centroids): centroids(centroids) {}
 
 std::vector<std::vector<doublePixelRGB>> Centroid::getPixelsRGB() { return pixelsRGB; }
 std::vector<std::vector<doublePixelGray>> Centroid::getPixelsGray() { return pixelsGray; }
-void Centroid::setPixelsRGB(std::vector<std::vector<doublePixelRGB>> pixels) { pixelsRGB=pixels; }
-void Centroid::setPixelsGray(std::vector<std::vector<doublePixelGray>> pixels) { pixelsGray=pixels; }
+void Centroid::setPixelsRGB(std::vector<std::vector<doublePixelRGB>> pixels) { pixelsRGB=pixels; justGenerated=true; }
+void Centroid::setPixelsGray(std::vector<std::vector<doublePixelGray>> pixels) { pixelsGray=pixels; justGenerated=true; }
 unsigned int Centroid::getClosestForSegments() { return isClosestForSegments; }
 
 void Centroid::incrementClosestForSegments() { isClosestForSegments++; }
 void Centroid::decrementClosestForSegments() { if (isClosestForSegments!=0) isClosestForSegments--; }
+void Centroid::clearClosestForSegments() { isClosestForSegments=0; }
+bool Centroid::getJustGenerated() { return justGenerated; }
+void Centroid::toggleJustGenerated() { justGenerated=false; }
+void Centroid::setJustGenerated() { justGenerated=true; }
 
 bool operator==(const Centroid& centroid1, const Centroid& centroid2)
 {

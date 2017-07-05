@@ -28,9 +28,14 @@ private:
     void calculateMinsMaxs(unsigned int mode, ImageSegments* imageSegments);
 public:
     Centroids(unsigned int numberOfCentroids, unsigned int prefferedSize, bool isRGB, ImageSegments* imageSegments);
+    void setCentroids(std::vector<Centroid> centroids);
     unsigned int getNumberOfCentroids();
     Centroid* getCentroid(unsigned int x);
-    void regenerateDeadCentroids();
+    std::pair<doublePixelRGB,doublePixelRGB> getMinsMaxsRGB();
+    std::pair<doublePixelGray,doublePixelGray> getMinsMaxsGray();
+    unsigned int regenerateDeadCentroids();
+    void clearCentroidsClosestForSegments();
+    void toggleCentroidsJustGenerated();
     friend bool operator==(const Centroids& centroids1, const Centroids& centroids2);
 };
 

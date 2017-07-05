@@ -9,6 +9,8 @@
 #include "ImageSegments.hpp"
 #include <math.h>
 #include <thread>
+#include <float.h> //DBL_MAX
+#include <algorithm> //max
 
 ImageSegments::ImageSegments(unsigned int prefferedSize, BMPImage image)
 {
@@ -66,26 +68,51 @@ void ImageSegments::generateSegment(unsigned int x, unsigned int y)
 void ImageSegments::updatePixelsWithSegment(unsigned int x, unsigned int y)
 {
     unsigned int i,j;
-    if (isRGB)
+    if (imageSegments[x*(imageWidth/prefferedSize)+y].getIsModified())
     {
-        for (i=0;i<prefferedSize;i++)
+        if (isRGB)
         {
-            for (j=0;j<prefferedSize;j++)
+            for (i=0;i<prefferedSize;i++)
             {
-                pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].r=imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].r;
-                pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].g=imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].g;
-                pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].b=imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].b;
+                for (j=0;j<prefferedSize;j++)
+                {
+                    pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].r=round(imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].r);
+                    pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].g=round(imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].g);
+                    pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].b=round(imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsRGB()[i][j].b);
+                }
+            }
+        }
+        else
+        {
+            for (i=0;i<prefferedSize;i++)
+            {
+                for (j=0;j<prefferedSize;j++)
+                    pixelsGray[x*prefferedSize+i][y*prefferedSize+j].gray=round(imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsGray()[i][j].gray);
             }
         }
     }
     else
     {
-        for (i=0;i<prefferedSize;i++)
+        if (isRGB)
         {
-            for (j=0;j<prefferedSize;j++)
-                pixelsGray[x*prefferedSize+i][y*prefferedSize+j].gray=imageSegments[x*(imageWidth/prefferedSize)+y].getModifiedPixelsGray()[i][j].gray;
+            for (i=0;i<prefferedSize;i++)
+            {
+                for (j=0;j<prefferedSize;j++)
+                {
+                    pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].r=imageSegments[x*(imageWidth/prefferedSize)+y].getOrginalPixelsRGB()[i][j].r;
+                    pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].g=imageSegments[x*(imageWidth/prefferedSize)+y].getOrginalPixelsRGB()[i][j].g;
+                    pixelsRGB[x*prefferedSize+i][y*prefferedSize+j].b=imageSegments[x*(imageWidth/prefferedSize)+y].getOrginalPixelsRGB()[i][j].b;
+                }
+            }
         }
-    }
+        else
+        {
+            for (i=0;i<prefferedSize;i++)
+            {
+                for (j=0;j<prefferedSize;j++)
+                    pixelsGray[x*prefferedSize+i][y*prefferedSize+j].gray=imageSegments[x*(imageWidth/prefferedSize)+y].getOrginalPixelsGray()[i][j].gray;
+            }
+        }    }
 }
 
 void ImageSegments::calculateMean(unsigned int mode, double* valueToSet, unsigned int x, unsigned int y)
@@ -131,10 +158,162 @@ void ImageSegments::calculateStandartDeviation(unsigned int mode, double mean, u
     }
 }
 
+void ImageSegments::getMinsMaxsOfPixel(unsigned int mode, unsigned int x, unsigned int y, double* output)
+{
+    unsigned int i;
+    std::pair<double,double> result;
+    if (mode==MODE_R)
+    {
+        if (imageSegments[0].getIsModified())
+        {
+            result.first=imageSegments[0].getModifiedPixelsRGB()[x][y].r;
+            result.second=imageSegments[0].getModifiedPixelsRGB()[x][y].r;
+        }
+        else
+        {
+            result.first=imageSegments[0].getOrginalPixelsRGB()[x][y].r;
+            result.second=imageSegments[0].getOrginalPixelsRGB()[x][y].r;
+        }
+        for (i=1;i<imageSegments.size();i++)
+        {
+            if (imageSegments[0].getIsModified())
+            {
+                if (result.first>imageSegments[i].getModifiedPixelsRGB()[x][y].r) result.first=imageSegments[i].getModifiedPixelsRGB()[x][y].r;
+                if (result.second<imageSegments[i].getModifiedPixelsRGB()[x][y].r) result.second=imageSegments[i].getModifiedPixelsRGB()[x][y].r;
+            }
+            else
+            {
+                if (result.first>imageSegments[i].getOrginalPixelsRGB()[x][y].r) result.first=imageSegments[i].getOrginalPixelsRGB()[x][y].r;
+                if (result.second<imageSegments[i].getOrginalPixelsRGB()[x][y].r) result.second=imageSegments[i].getOrginalPixelsRGB()[x][y].r;
+            }
+        }
+            
+    } else if (mode==MODE_G)
+    {
+        if (imageSegments[0].getIsModified())
+        {
+            result.first=imageSegments[0].getModifiedPixelsRGB()[x][y].g;
+            result.second=imageSegments[0].getModifiedPixelsRGB()[x][y].g;
+        }
+        else
+        {
+            result.first=imageSegments[0].getOrginalPixelsRGB()[x][y].g;
+            result.second=imageSegments[0].getOrginalPixelsRGB()[x][y].g;
+        }
+        for (i=1;i<imageSegments.size();i++)
+        {
+            if (imageSegments[0].getIsModified())
+            {
+                if (result.first>imageSegments[i].getModifiedPixelsRGB()[x][y].g) result.first=imageSegments[i].getModifiedPixelsRGB()[x][y].g;
+                if (result.second<imageSegments[i].getModifiedPixelsRGB()[x][y].g) result.second=imageSegments[i].getModifiedPixelsRGB()[x][y].g;
+            }
+            else
+            {
+                if (result.first>imageSegments[i].getOrginalPixelsRGB()[x][y].g) result.first=imageSegments[i].getOrginalPixelsRGB()[x][y].g;
+                if (result.second<imageSegments[i].getOrginalPixelsRGB()[x][y].g) result.second=imageSegments[i].getOrginalPixelsRGB()[x][y].g;
+            }
+        }
+    } else if (mode==MODE_B)
+    {
+        if (imageSegments[0].getIsModified())
+        {
+            result.first=imageSegments[0].getModifiedPixelsRGB()[x][y].b;
+            result.second=imageSegments[0].getModifiedPixelsRGB()[x][y].b;
+        }
+        else
+        {
+            result.first=imageSegments[0].getOrginalPixelsRGB()[x][y].b;
+            result.second=imageSegments[0].getOrginalPixelsRGB()[x][y].b;
+        }
+        for (i=1;i<imageSegments.size();i++)
+        {
+            if (imageSegments[0].getIsModified())
+            {
+                if (result.first>imageSegments[i].getModifiedPixelsRGB()[x][y].b) result.first=imageSegments[i].getModifiedPixelsRGB()[x][y].b;
+                if (result.second<imageSegments[i].getModifiedPixelsRGB()[x][y].b) result.second=imageSegments[i].getModifiedPixelsRGB()[x][y].b;
+            }
+            else
+            {
+                if (result.first>imageSegments[i].getOrginalPixelsRGB()[x][y].b) result.first=imageSegments[i].getOrginalPixelsRGB()[x][y].b;
+                if (result.second<imageSegments[i].getOrginalPixelsRGB()[x][y].b) result.second=imageSegments[i].getOrginalPixelsRGB()[x][y].b;
+            }
+        }
+    } else if (mode==MODE_GRAY)
+    {
+        if (imageSegments[0].getIsModified())
+        {
+            result.first=imageSegments[0].getModifiedPixelsGray()[x][y].gray;
+            result.second=imageSegments[0].getModifiedPixelsGray()[x][y].gray;
+        }
+        else
+        {
+            result.first=imageSegments[0].getOrginalPixelsGray()[x][y].gray;
+            result.second=imageSegments[0].getOrginalPixelsGray()[x][y].gray;
+        }
+        for (i=1;i<imageSegments.size();i++)
+        {
+            if (imageSegments[0].getIsModified())
+            {
+                if (result.first>imageSegments[i].getModifiedPixelsGray()[x][y].gray) result.first=imageSegments[i].getModifiedPixelsGray()[x][y].gray;
+                if (result.second<imageSegments[i].getModifiedPixelsGray()[x][y].gray) result.second=imageSegments[i].getModifiedPixelsGray()[x][y].gray;
+            }
+            else
+            {
+                if (result.first>imageSegments[i].getOrginalPixelsGray()[x][y].gray) result.first=imageSegments[i].getOrginalPixelsGray()[x][y].gray;
+                if (result.second<imageSegments[i].getOrginalPixelsGray()[x][y].gray) result.second=imageSegments[i].getOrginalPixelsGray()[x][y].gray;
+            }
+        }
+    }
+    *output=(result.second-result.first)/2.0;
+}
+
 ImageSegment* ImageSegments::getSegment(unsigned int x) { return &imageSegments[x]; }
 ImageSegment* ImageSegments::getSegment(unsigned int x, unsigned int y) { return &imageSegments[x*(imageWidth/prefferedSize)+y]; }
 std::vector<std::vector<pixelRGB>> ImageSegments::getPixelsRGB() { return pixelsRGB; }
 std::vector<std::vector<pixelGray>> ImageSegments::getPixelsGray() { return pixelsGray; }
+
+double ImageSegments::getMinsMaxsOfPixels()
+{
+    double output;
+    unsigned int i,j,k;
+    if (isRGB)
+    {
+        std::vector<double> tymczasowePary(3*prefferedSize*prefferedSize,DBL_MAX);
+        std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA][3];
+        for (i=0;i<prefferedSize;i++)
+            for (j=0;j<prefferedSize;j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+            {
+                for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<prefferedSize);k++)
+                {
+                    watki[k][0]=std::thread(&ImageSegments::getMinsMaxsOfPixel,this,MODE_R,i,j+k,&tymczasowePary[i*prefferedSize+j+k]);
+                    watki[k][1]=std::thread(&ImageSegments::getMinsMaxsOfPixel,this,MODE_G,i,j+k,&tymczasowePary[i*prefferedSize+j+k+1*(prefferedSize*prefferedSize)]);
+                    watki[k][2]=std::thread(&ImageSegments::getMinsMaxsOfPixel,this,MODE_B,i,j+k,&tymczasowePary[i*prefferedSize+j+k+2*(prefferedSize*prefferedSize)]);
+                }
+                for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+                {
+                    if (watki[k][0].joinable()) watki[k][0].join();
+                    if (watki[k][1].joinable()) watki[k][1].join();
+                    if (watki[k][2].joinable()) watki[k][2].join();
+                }
+            }
+        output=*std::max(tymczasowePary.begin(), tymczasowePary.end());
+    }
+    else
+    {
+        std::vector<double> tymczasowePary(prefferedSize,DBL_MAX);
+        std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
+        for (i=0;i<prefferedSize;i++)
+            for (j=0;j<prefferedSize;j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
+            {
+                for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<prefferedSize);k++)
+                    watki[k]=std::thread(&ImageSegments::getMinsMaxsOfPixel,this,MODE_GRAY,i,j+k,&tymczasowePary[i+j+k]);
+                for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
+                    if (watki[k].joinable()) watki[k].join();
+            }
+        output=*std::max(tymczasowePary.begin(), tymczasowePary.end());
+    }
+    return output;
+}
 
 double ImageSegments::getDeviationValue(unsigned int mode, unsigned int x, unsigned int y)
 {

@@ -36,12 +36,14 @@ private:
     //Uzywane glownie przy wielu watkach
     void calculateMean(unsigned int mode, double* valueToSet, unsigned int x, unsigned int y);
     void calculateStandartDeviation(unsigned int mode, double mean, unsigned int x, unsigned int y);
+    void getMinsMaxsOfPixel(unsigned int mode, unsigned int x, unsigned int y, double* output);
 public:
     ImageSegments(unsigned int prefferedSize, BMPImage image);
     ImageSegment* getSegment(unsigned int x);
     ImageSegment* getSegment(unsigned int x, unsigned int y);
     std::vector<std::vector<pixelRGB>> getPixelsRGB();
     std::vector<std::vector<pixelGray>> getPixelsGray();
+    double getMinsMaxsOfPixels();
     double getDeviationValue(unsigned int mode, unsigned int x, unsigned int y);
     bool getIsRGB();
     unsigned int getNumberOfSegments();
