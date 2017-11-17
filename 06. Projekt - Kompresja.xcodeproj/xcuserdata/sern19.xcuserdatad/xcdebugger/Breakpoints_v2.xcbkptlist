@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "294"
             endingLineNumber = "294"
-            landmarkName = "ImageSegments::getDeviationValue(unsigned int mode, unsigned int x, unsigned int y)"
+            landmarkName = "ImageSegments::getMinsMaxsOfPixels()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -78,7 +78,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "444"
-            endingLineNumber = "444">
+            endingLineNumber = "444"
+            landmarkName = "ImageSegments::denormalizeSegments()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -108,9 +110,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "Centroids::calculateMinsMaxs(unsigned int mode, ImageSegments *imageSegments)"
-            landmarkType = "7">
+            endingLineNumber = "83">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -127,22 +127,6 @@
             endingLineNumber = "88"
             landmarkName = "Centroids::calculateMinsMaxs(unsigned int mode, ImageSegments *imageSegments)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "06. Projekt - Kompresja/main.cpp"
-            timestampString = "520905362.566314"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -188,9 +172,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "Centroids::generateCentroid(unsigned int x)"
-            landmarkType = "7">
+            endingLineNumber = "51">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -205,7 +187,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "Centroids::generateCentroid(unsigned int x)"
+            landmarkName = "Centroids::generateCentroid(unsigned int x, unsigned int seed)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -221,7 +203,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "73"
             endingLineNumber = "73"
-            landmarkName = "Centroids::generateCentroid(unsigned int x)"
+            landmarkName = "Centroids::generateCentroid(unsigned int x, unsigned int seed)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -268,9 +250,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "435"
-            endingLineNumber = "435"
-            landmarkName = "ImageSegments::generateFinalPixels()"
-            landmarkType = "7">
+            endingLineNumber = "435">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -287,22 +267,6 @@
             endingLineNumber = "60"
             landmarkName = "Zarzadca::Zarzadca(std::string imageFilename, unsigned int numberOfCentroids, unsigned int segmentSize, Interface* interfejs)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "06. Projekt - Kompresja/main.cpp"
-            timestampString = "520905362.566314"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "main(int argc, const char * argv[])"
-            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -444,7 +408,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "429"
-            endingLineNumber = "429">
+            endingLineNumber = "429"
+            landmarkName = "Zarzadca::calculatePixelsGrayForNeuralGas(unsigned int numberOfSegment, unsigned int numberOfCentroid, double eps, double lambda)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -682,9 +648,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "412"
-            endingLineNumber = "412"
-            landmarkName = "Zarzadca::calculatePixelsGrayForNeuralGas(unsigned int numberOfSegment, unsigned int numberOfCentroid, double eps, double lambda)"
-            landmarkType = "7">
+            endingLineNumber = "412">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -716,6 +680,102 @@
             startingLineNumber = "660"
             endingLineNumber = "660"
             landmarkName = "Zarzadca::glownaPetlaNeuralGas(unsigned int numberOfIterations, double initialLambda, double initialEps)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "06. Projekt - Kompresja/Zarzadca.cpp"
+            timestampString = "521101844.199217"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "714"
+            endingLineNumber = "714"
+            landmarkName = "Zarzadca::glownaPetlaKohonen(unsigned int numberOfIterations, double initialEps)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "06. Projekt - Kompresja/Zarzadca.cpp"
+            timestampString = "521102116.071514"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "776"
+            endingLineNumber = "776"
+            landmarkName = "Zarzadca::glownaPetlaKohonen(unsigned int numberOfIterations, double initialEps)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "06. Projekt - Kompresja/Zarzadca.cpp"
+            timestampString = "521102187.253398"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "478"
+            endingLineNumber = "478"
+            landmarkName = "Zarzadca::calculatePixelsGrayForKohonen(unsigned int numberOfSegment, unsigned int numberOfCentroid, double eps, double lambda)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "06. Projekt - Kompresja/Zarzadca.cpp"
+            timestampString = "521102332.077138"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "380"
+            endingLineNumber = "380"
+            landmarkName = "Zarzadca::calculatePixelForKohonen(unsigned int mode, unsigned int numberOfSegment, unsigned int numberOfCentroid, unsigned int x, unsigned int y, double eps, double lambda, double squareDistance, double* result)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "06. Projekt - Kompresja/ImageSegments.cpp"
+            timestampString = "521102553.435377"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
+            landmarkName = "ImageSegments::getMinsMaxsOfPixels()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "06. Projekt - Kompresja/ImageSegments.cpp"
+            timestampString = "521102606.972312"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "ImageSegments::getMinsMaxsOfPixels()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

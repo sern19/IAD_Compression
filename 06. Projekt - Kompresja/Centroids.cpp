@@ -11,13 +11,17 @@
 #include "GlobalDefines.hpp"
 #include <thread>
 #include <float.h> //DBL_MAX
-#include <cstdlib> //srand
+#include <cstdlib>
+#include <random>
 #include <time.h>
 
 Centroids::Centroids(unsigned int numberOfCentroids, unsigned int prefferedSize, bool isRGB, ImageSegments* imageSegments): isRGB(isRGB), prefferedSize(prefferedSize)
 {
     unsigned int i,k;
     std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
+    
+    std::random_device device;
+    std::mt19937 generator(device());
     
     //Inicjalizacja vectoru centroidow
     centroids.reserve(numberOfCentroids);
@@ -38,7 +42,7 @@ Centroids::Centroids(unsigned int numberOfCentroids, unsigned int prefferedSize,
     for (i=0;i<numberOfCentroids;i+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
     {
         for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+i)<numberOfCentroids);k++)
-            watki[k]=std::thread(&Centroids::generateCentroid,this,i+k);
+            watki[k]=std::thread(&Centroids::generateCentroid,this,i+k,generator());
         for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
             if (watki[k].joinable()) watki[k].join();
     }
@@ -46,11 +50,12 @@ Centroids::Centroids(unsigned int numberOfCentroids, unsigned int prefferedSize,
 
 void Centroids::setCentroids(std::vector<Centroid> centroids) { this->centroids=centroids; }
 
-void Centroids::generateCentroid(unsigned int x)
+void Centroids::generateCentroid(unsigned int x, unsigned int seed)
 {
     unsigned int i,j;
     
-    srand((unsigned int)time(NULL));
+    std::mt19937 generator(seed);
+    std::uniform_real_distribution<double> realNumbers(0,1.0);
     
     if (isRGB)
     {
@@ -58,9 +63,9 @@ void Centroids::generateCentroid(unsigned int x)
         for (i=0;i<prefferedSize;i++)
             for (j=0;j<prefferedSize;j++)
             {
-                tymczasowePixele[i][j].r=((double)rand()/(double)RAND_MAX)*(minsMaxsRGB.second.r-minsMaxsRGB.first.r)+minsMaxsRGB.first.r;
-                tymczasowePixele[i][j].g=((double)rand()/(double)RAND_MAX)*(minsMaxsRGB.second.g-minsMaxsRGB.first.g)+minsMaxsRGB.first.g;
-                tymczasowePixele[i][j].b=((double)rand()/(double)RAND_MAX)*(minsMaxsRGB.second.b-minsMaxsRGB.first.b)+minsMaxsRGB.first.b;
+                tymczasowePixele[i][j].r=realNumbers(generator)*(minsMaxsRGB.second.r-minsMaxsRGB.first.r)+minsMaxsRGB.first.r;
+                tymczasowePixele[i][j].g=realNumbers(generator)*(minsMaxsRGB.second.g-minsMaxsRGB.first.g)+minsMaxsRGB.first.g;
+                tymczasowePixele[i][j].b=realNumbers(generator)*(minsMaxsRGB.second.b-minsMaxsRGB.first.b)+minsMaxsRGB.first.b;
             }
         centroids[x]=Centroid(tymczasowePixele,this);
     }
@@ -70,7 +75,7 @@ void Centroids::generateCentroid(unsigned int x)
         for (i=0;i<prefferedSize;i++)
             for (j=0;j<prefferedSize;j++)
             {
-                tymczasowePixele[i][j].gray=((double)rand()/(double)RAND_MAX)*(minsMaxsGray.second.gray-minsMaxsGray.first.gray)+minsMaxsGray.first.gray;
+                tymczasowePixele[i][j].gray=realNumbers(generator)*(minsMaxsGray.second.gray-minsMaxsGray.first.gray)+minsMaxsGray.first.gray;
             }
         centroids[x]=Centroid(tymczasowePixele,this);
     }
@@ -134,11 +139,6 @@ void Centroids::calculateMinsMaxs(unsigned int mode, ImageSegments *imageSegment
     }
 }
 
-void Centroids::tryToRegenerateCentroid(unsigned int x)
-{
-    if (centroids[x].getClosestForSegments()==0) generateCentroid(x);
-}
-
 unsigned int Centroids::getNumberOfCentroids() { return (unsigned int)centroids.size(); }
 Centroid* Centroids::getCentroid(unsigned int x) { return &centroids[x]; }
 std::pair<doublePixelRGB,doublePixelRGB> Centroids::getMinsMaxsRGB() { return minsMaxsRGB; }
@@ -148,12 +148,15 @@ unsigned int Centroids::regenerateDeadCentroids()
 {
     unsigned int i,k, output=0;
     
+    std::random_device device;
+    std::mt19937 generator(device());
+    
     std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
     
     for (i=0;i<centroids.size();i+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
     {
         for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+i)<centroids.size());k++)
-            watki[k]=std::thread(&Centroids::tryToRegenerateCentroid,this,i+k);
+            if (centroids[i+k].getClosestForSegments()==0) watki[k]=std::thread(&Centroids::generateCentroid,this,i+k,generator());
         for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
             if (watki[k].joinable()) watki[k].join();
     }

@@ -43,6 +43,7 @@ ImageSegments::ImageSegments(unsigned int prefferedSize, BMPImage image)
 void ImageSegments::generateSegment(unsigned int x, unsigned int y)
 {
     unsigned int i,j;
+    if (prefferedSize==0) return;
     if (isRGB)
     {
         std::vector<std::vector<pixelRGB>> tymczadowePixele(prefferedSize,std::vector<pixelRGB>(prefferedSize));
@@ -296,21 +297,21 @@ double ImageSegments::getMinsMaxsOfPixels()
                     if (watki[k][2].joinable()) watki[k][2].join();
                 }
             }
-        output=*std::max(tymczasowePary.begin(), tymczasowePary.end());
+        output=*std::max_element(tymczasowePary.begin(), tymczasowePary.end());
     }
     else
     {
-        std::vector<double> tymczasowePary(prefferedSize,DBL_MAX);
+        std::vector<double> tymczasowePary(prefferedSize*prefferedSize,DBL_MAX);
         std::thread watki[MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA];
         for (i=0;i<prefferedSize;i++)
             for (j=0;j<prefferedSize;j+=MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)
             {
                 for (k=0;(k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA)&&((k+j)<prefferedSize);k++)
-                    watki[k]=std::thread(&ImageSegments::getMinsMaxsOfPixel,this,MODE_GRAY,i,j+k,&tymczasowePary[i+j+k]);
+                    watki[k]=std::thread(&ImageSegments::getMinsMaxsOfPixel,this,MODE_GRAY,i,j+k,&tymczasowePary[i*prefferedSize+j+k]);
                 for (k=0;k<MAKSYMALNA_ILOSC_WATKOW_DO_UZYCIA;k++)
                     if (watki[k].joinable()) watki[k].join();
             }
-        output=*std::max(tymczasowePary.begin(), tymczasowePary.end());
+        output=*std::max_element(tymczasowePary.begin(), tymczasowePary.end());
     }
     return output;
 }

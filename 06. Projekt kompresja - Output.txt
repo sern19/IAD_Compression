@@ -1,0 +1,5 @@
+
+----Otwarto plik (2017.7.7 9:40:2)----
+Próbuję wczytać plik o nazwie 01.bmp
+Nie można otworzyć pliku!
+Nie można kontynuować działania aplikacji!

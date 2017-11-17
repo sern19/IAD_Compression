@@ -23,8 +23,7 @@ private:
     std::pair<doublePixelRGB,doublePixelRGB> minsMaxsRGB;
     std::pair<doublePixelGray,doublePixelGray> minsMaxsGray;
     bool isRGB;
-    void generateCentroid(unsigned int x);
-    void tryToRegenerateCentroid(unsigned int x);
+    void generateCentroid(unsigned int x, unsigned int seed);
     void calculateMinsMaxs(unsigned int mode, ImageSegments* imageSegments);
 public:
     Centroids(unsigned int numberOfCentroids, unsigned int prefferedSize, bool isRGB, ImageSegments* imageSegments);

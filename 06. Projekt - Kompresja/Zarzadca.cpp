@@ -11,8 +11,9 @@
 #include <float.h> //DBL_MAX
 #include <math.h>
 #include <thread>
-#include <stdlib.h> //srand
+#include <cstdlib>
 #include <map> //Sortowanie przy uzyciu multimapy
+#include <random>
 
 Zarzadca::Zarzadca(std::string imageFilename, unsigned int numberOfCentroids, unsigned int segmentSize, Interface* interfejs): interfejs(interfejs)
 {
@@ -94,6 +95,7 @@ void Zarzadca::calculateDistanceForCentroids(unsigned int centroid1Number, unsig
             for (j=0;j<centroids->getCentroid(centroid1Number)->getPixelsGray()[i].size();j++)
                 output+=pow((centroids->getCentroid(centroid1Number)->getPixelsGray()[i][j].gray - centroids->getCentroid(centroid2Number)->getPixelsGray()[i][j].gray),2);
     }
+    *result=sqrt(output);
 }
 
 void Zarzadca::calculateDistance(unsigned int segmentNumber, unsigned int centroidNumber, double* result)
@@ -613,9 +615,13 @@ void Zarzadca::glownaPetlaKmeans(unsigned int numberOfRetries, unsigned int numb
 
 void Zarzadca::glownaPetlaNeuralGas(unsigned int numberOfIterations, double initialLambda, double initialEps)
 {
-    unsigned int mainLoop,i,randomSegmentNumber;
+    unsigned int mainLoop,i,randomSegmentNumber,numberOfRetries=0;
     double lambda,eps,iterationConst=(double)numberOfIterations/log(initialLambda);
     
+    float nastepnaWartoscIteracjiDoWyswietlenia=0;
+    
+    std::random_device device;
+    std::mt19937 generator(device());
     
     unsigned int numberOfDeadCentroids=0, previousNumberOfDeadCentroids=UINT_MAX;
     
@@ -638,20 +644,20 @@ void Zarzadca::glownaPetlaNeuralGas(unsigned int numberOfIterations, double init
     do
     {
         //Szukanie najblizszych centroidow
+        centroids->clearCentroidsClosestForSegments();
+        imageSegments->clearClosestsCentroids();
         searchForClosestCentroidsLoop();
         
         numberOfDeadCentroids=centroids->regenerateDeadCentroids();
         if (previousNumberOfDeadCentroids>numberOfDeadCentroids)
         {
+            numberOfRetries=0;
             interfejs->showText("\t\t");
             interfejs->showText(((double)centroids->getNumberOfCentroids()-numberOfDeadCentroids)/(double)centroids->getNumberOfCentroids()*100.0);
             interfejs->showComunicat("%");
             previousNumberOfDeadCentroids=numberOfDeadCentroids;
-        }
-    } while (numberOfDeadCentroids!=0);
-    
-    //Srand
-    srand((unsigned int)time(NULL));
+        } else numberOfRetries++;
+    } while ((numberOfDeadCentroids!=0)&&(MAKSYMALNA_LICZBA_PROB_PRZELOSOWANIA>numberOfRetries));
     
     //Glowna petla
     interfejs->showComunicat("\tRozpoczynam główną pętlę");
@@ -660,8 +666,16 @@ void Zarzadca::glownaPetlaNeuralGas(unsigned int numberOfIterations, double init
         lambda=initialLambda*exp(((-1.0)*(double)mainLoop)/iterationConst);
         eps=initialEps*exp(((-1.0)*(double)mainLoop)/(double)numberOfIterations);
         
+        if (nastepnaWartoscIteracjiDoWyswietlenia<=mainLoop)
+        {
+            nastepnaWartoscIteracjiDoWyswietlenia+=round((double)CO_ILE_PROCENT_WYSWIETLAC_STATUS/100.0*numberOfIterations);
+            interfejs->showText("\t\t");
+            interfejs->showText((double)mainLoop/(double)numberOfIterations*100.0);
+            interfejs->showComunicat("%");
+        }
+        
         //Losowanie segmentu
-        randomSegmentNumber=rand()%imageSegments->getNumberOfSegments();
+        randomSegmentNumber=generator()%imageSegments->getNumberOfSegments();
         
         //Sortowanie wg wylosowanego segmentu
         sortCentroidsForSegment(randomSegmentNumber);
@@ -688,9 +702,14 @@ void Zarzadca::glownaPetlaNeuralGas(unsigned int numberOfIterations, double init
 
 void Zarzadca::glownaPetlaKohonen(unsigned int numberOfIterations, double initialEps)
 {
-    unsigned int mainLoop,i,randomSegmentNumber;
+    unsigned int mainLoop,i,randomSegmentNumber, numberOfRetries=0;
     double initialLambda=imageSegments->getMinsMaxsOfPixels()*0.16;
     double lambda,eps,iterationConst=(double)numberOfIterations/log(initialLambda);
+    
+    float nastepnaWartoscIteracjiDoWyswietlenia=0;
+    
+    std::random_device device;
+    std::mt19937 generator(device());
     
     unsigned int numberOfDeadCentroids=0, previousNumberOfDeadCentroids=UINT_MAX;
     
@@ -713,20 +732,20 @@ void Zarzadca::glownaPetlaKohonen(unsigned int numberOfIterations, double initia
     do
     {
         //Szukanie najblizszych centroidow
+        centroids->clearCentroidsClosestForSegments();
+        imageSegments->clearClosestsCentroids();
         searchForClosestCentroidsLoop();
         
         numberOfDeadCentroids=centroids->regenerateDeadCentroids();
         if (previousNumberOfDeadCentroids>numberOfDeadCentroids)
         {
+            numberOfRetries=0;
             interfejs->showText("\t\t");
             interfejs->showText(((double)centroids->getNumberOfCentroids()-numberOfDeadCentroids)/(double)centroids->getNumberOfCentroids()*100.0);
             interfejs->showComunicat("%");
             previousNumberOfDeadCentroids=numberOfDeadCentroids;
-        }
-    } while (numberOfDeadCentroids!=0);
-    
-    //Srand
-    srand((unsigned int)time(NULL));
+        } else numberOfRetries++;
+    } while ((numberOfDeadCentroids!=0)&&(MAKSYMALNA_LICZBA_PROB_PRZELOSOWANIA>numberOfRetries));
     
     //Glowna petla
     interfejs->showComunicat("\tRozpoczynam główną pętlę");
@@ -735,10 +754,18 @@ void Zarzadca::glownaPetlaKohonen(unsigned int numberOfIterations, double initia
         lambda=initialLambda*exp(((-1.0)*(double)mainLoop)/iterationConst);
         eps=initialEps*exp(((-1.0)*(double)mainLoop)/(double)numberOfIterations);
         
-        //Losowanie segmentu
-        randomSegmentNumber=rand()%imageSegments->getNumberOfSegments();
+        if (nastepnaWartoscIteracjiDoWyswietlenia<=mainLoop)
+        {
+            nastepnaWartoscIteracjiDoWyswietlenia+=round((double)CO_ILE_PROCENT_WYSWIETLAC_STATUS/100.0*numberOfIterations);
+            interfejs->showText("\t\t");
+            interfejs->showText((double)mainLoop/(double)numberOfIterations*100.0);
+            interfejs->showComunicat("%");
+        }
         
-        //Sortowanie wg wylosowanego segmentu
+        //Losowanie segmentu
+        randomSegmentNumber=generator()%imageSegments->getNumberOfSegments();
+        
+        //Szukanie najbliższych segmentów
         searchForClosestCentroidsLoop();
         
         //Zmiana wartosci w centroidach
